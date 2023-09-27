@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\PagesController;
+use App\Http\Controllers\PostsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -12,11 +14,7 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-
-Route::get('/', function () {
-    return view('welcome');
-});
-
-Route::get('/test', function () {
-    return view('test');
-});
+ 
+Route::get('/welcome', [PagesController::class, 'showWelcome']);
+Route::get('/', [PagesController::class, 'showHome']);
+Route::get('/post/{id}', [PostsController::class, 'getPostById']);
