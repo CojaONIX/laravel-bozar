@@ -7,7 +7,7 @@
     <link href="https://cdn.datatables.net/v/dt/jq-3.7.0/dt-1.13.6/datatables.min.css" rel="stylesheet">
     <script src="https://cdn.datatables.net/v/dt/jq-3.7.0/dt-1.13.6/datatables.min.js"></script>
 
-    <a href="" class="btn btn-primary my-5">New Post</a>
+    <a href="/dashboard/post/new" class="btn btn-primary my-5">New Post</a>
 
     <table id="example" class="display">
         <thead>
@@ -17,6 +17,7 @@
                 <th>Body</th>
                 <th>created_at</th>
                 <th>updated_at</th>
+                <th></th>
             </tr>
         </thead>
         <tbody>
@@ -27,11 +28,19 @@
                 <td>{{ \Illuminate\Support\Str::limit($post->body, 100, $end='...') }}</td>
                 <td>{{$post->created_at}}</td>
                 <td>{{$post->updated_at}}</td>
+                <td><a href="/dashboard/post/edit/{{$post->id}}" class="btn btn-outline-primary">Edit</a></td>
             </tr>
             @endforeach
 
         </tbody>
     </table>
+
+    @if(session('success'))
+        <div class="alert alert-success alert-dismissible fade show my-4" role="alert">
+            {{session('success')}}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    @endif
 
     <script>
         $('#example').DataTable();
