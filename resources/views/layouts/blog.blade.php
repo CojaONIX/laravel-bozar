@@ -63,6 +63,7 @@
 
     <div class="container">
         <h3 class="my-3">@yield('title')</h3>
+        <hr>
         @yield('content')
 
     </div>

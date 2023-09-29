@@ -27,6 +27,11 @@ class PostsController extends Controller
 
     public function createNewPost(Request $request): RedirectResponse
     {
+        $request->validate([
+            'title' => 'required|string|max:255',
+            'body' => 'required|string'
+        ]);
+
         $post = new Post;
  
         $post->title = $request->title;

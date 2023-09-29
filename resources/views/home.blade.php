@@ -4,7 +4,7 @@
  
 @section('content')
    
-    <div class="row row-cols-1 row-cols-md-2 g-4">
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
         @foreach($posts as $post)
         <div class="card-group">
             <div class="card">
@@ -16,11 +16,15 @@
                 </div>
 
                 <div class="card-footer">
-                    <a href="/post/{{$post->id}}" class="btn btn-primary float-end">Read more {{$post->title}}</a>
+                    <a href="/post/{{$post->id}}" class="btn btn-primary float-end">Read more...</a>
                 </div>
             </div>
         </div>
         @endforeach
     </div>
+
+    <hr>
+    <div class="row">{{ $posts->links() }}</div>
+    
 
 @endsection

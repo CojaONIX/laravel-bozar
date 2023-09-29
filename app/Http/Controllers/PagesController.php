@@ -15,7 +15,7 @@ class PagesController extends Controller
 
     public function showHome(): View
     {
-        $posts = Post::all();
+        $posts = Post::paginate(3);
         return view('home', ['posts' => $posts]);
     }
 }
