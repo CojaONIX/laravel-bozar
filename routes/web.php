@@ -26,6 +26,7 @@ Route::get('/dashboard/post/new', [PostsController::class, 'showNewPost'])->midd
 Route::post('/dashboard/post/new', [PostsController::class, 'createNewPost'])->middleware(['auth', 'verified'])->name('dashboard.create.new.post');
 Route::get('/dashboard/post/edit/{id}', [PostsController::class, 'showEditPost'])->middleware(['auth', 'verified'])->name('dashboard.show.edit.post');
 Route::put('/dashboard/post/edit/{id}', [PostsController::class, 'updateEditPost'])->middleware(['auth', 'verified'])->name('dashboard.update.edit.post');
+Route::delete('/dashboard/post/delete/{id}', [PostsController::class, 'deletePost'])->middleware(['auth', 'verified'])->name('dashboard.delete.post');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

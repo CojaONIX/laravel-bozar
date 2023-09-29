@@ -18,6 +18,7 @@
                 <th>created_at</th>
                 <th>updated_at</th>
                 <th></th>
+                <th></th>
             </tr>
         </thead>
         <tbody>
@@ -29,6 +30,13 @@
                 <td>{{$post->created_at}}</td>
                 <td>{{$post->updated_at}}</td>
                 <td><a href="/dashboard/post/edit/{{$post->id}}" class="btn btn-outline-primary">Edit</a></td>
+                <td>
+                    <form method="post" action="/dashboard/post/delete/{{$post->id}}">
+                        @csrf
+                        @method('delete')
+                        <button class="btn btn-outline-danger" type="submit">Delete</button>
+                    </form>
+                </td>
             </tr>
             @endforeach
 

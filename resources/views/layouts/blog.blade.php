@@ -45,12 +45,11 @@
                             <li><a class="dropdown-item" href="/dashboard">Dashboard</a></li>
                             <li><a class="dropdown-item" href="/profile">Profile</a></li>
                             <li><hr class="dropdown-divider"></li>
-                            <li><a class="dropdown-item" href="/logout">
-                                    <form method="post" action="/logout">
-                                        @csrf
-                                        <button class="btn btn-outline-danger col-12" type="submit">Logout</button>
-                                    </form>
-                                </a>
+                            <li>
+                                <form method="post" action="/logout" class="dropdown-item">
+                                    @csrf
+                                    <button class="btn btn-outline-danger col-12" type="submit">Logout</button>
+                                </form>
                             </li>
                         </ul>
                     </div>

@@ -49,11 +49,15 @@ class PostsController extends Controller
         $post->title = $request->title;
         $post->body = $request->body;
         $post->save();
- 
 
-        //return redirect()->route('dashboard', ['message' => 'Post id=' . $id . ' edited']);
         return redirect()->route('dashboard')->withSuccess('Post id=' . $id . ' edited');
+    }
 
+    public function deletePost(Request $request, $id): RedirectResponse
+    {
+        $post = Post::findOrFail($id);
+        $post->delete();
 
+        return redirect()->back()->withSuccess('Post id=' . $id . ' deleted');
     }
 }

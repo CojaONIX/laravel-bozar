@@ -8,7 +8,7 @@
         @csrf
 
         <div class="form-floating mb-3">
-            <input type="text" class="form-control" id="title" name="title" placeholder="Title:">
+            <input type="text" class="form-control" id="title" name="title" placeholder="Title:" autofocus>
             <label for="title">Title:</label>
         </div>
         <div class="form-floating">
