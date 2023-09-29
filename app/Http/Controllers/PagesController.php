@@ -15,7 +15,7 @@ class PagesController extends Controller
 
     public function showHome(): View
     {
-        $posts = Post::paginate(3);
+        $posts = Post::orderBy('created_at', 'desc')->paginate(3);
         return view('home', ['posts' => $posts]);
     }
 }
