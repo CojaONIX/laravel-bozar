@@ -19,6 +19,7 @@ use App\Http\Controllers\PostsController;
 
 Route::get('/welcome', [PagesController::class, 'showWelcome']);
 Route::get('/', [PagesController::class, 'showHome']);
+Route::get('/test/{model}/{id}', [PagesController::class, 'showTest']);
 Route::get('/post/{id}', [PostsController::class, 'getPostById']);
 
 // ? Route::middleware(['auth', 'verified'])->group(function () {
