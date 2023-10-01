@@ -16,7 +16,7 @@ class PagesController extends Controller
 
     public function showHome(): View
     {
-        $posts = Post::orderBy('created_at', 'desc')->paginate(3);
+        $posts = Post::with('user:id,name')->orderBy('created_at', 'desc')->paginate(3);
         return view('home', ['posts' => $posts]);
     }
 
@@ -25,7 +25,7 @@ class PagesController extends Controller
     {
         if($Model == 'post') {
             if($id == 'all'){
-                $obj = Post::all();
+                $obj = Post::with('user')->get();
             } else {
                 $obj = Post::findOrFail($id);
             }

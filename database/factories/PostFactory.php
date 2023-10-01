@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
+use App\Models\User;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Post>
@@ -18,6 +19,7 @@ class PostFactory extends Factory
     {
         // https://fakerphp.github.io/
         return [
+            'user_id' => User::pluck('id')->random(),
             'title' => fake()->sentence(),
             'body' => fake()->paragraphs(fake()->numberBetween(3, 5), true),
             'created_at' => fake()->dateTimeBetween('-1 year', '-1 day')

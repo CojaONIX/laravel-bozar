@@ -19,8 +19,7 @@ class AuthenticatedSessionController extends Controller
      */
     public function create(): View
     {
-        $users = User::all();
-        return view('auth.login', ['users' => $users]);
+        return view('auth.login', ['users' => User::pluck('email')]);
     }
 
     /**

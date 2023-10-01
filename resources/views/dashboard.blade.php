@@ -13,6 +13,7 @@
         <thead>
             <tr>
                 <th>ID</th>
+                <th>Author</th>
                 <th>Title</th>
                 <th>Body</th>
                 <th>created_at</th>
@@ -25,6 +26,11 @@
             @foreach($posts as $post)
             <tr>
                 <td>{{$post->id}}</td>
+                <td>
+                    @if($post->user)
+                        {{$post->user->name}}
+                    @endif
+                </td>
                 <td>{{$post->title}}</td>
                 <td>{{ \Illuminate\Support\Str::limit($post->body, 100, $end='...') }}</td>
                 <td>{{$post->created_at}}</td>

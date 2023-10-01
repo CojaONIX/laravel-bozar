@@ -6,7 +6,7 @@
 
 <ul>
     @foreach($users as $user)
-        <li>{{$user->email}}</li>
+        <li>{{$user}}</li>
     @endforeach
 </ul>
 

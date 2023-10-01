@@ -11,7 +11,7 @@ class PostsController extends Controller
 {
     public function showDashboard(): View
     {
-        $posts = Post::all();
+        $posts = Post::with('user:id,name')->get();
         return view('dashboard', ['posts' => $posts]);
     }
 
