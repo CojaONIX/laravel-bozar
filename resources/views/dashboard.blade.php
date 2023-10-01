@@ -7,9 +7,9 @@
     <link href="https://cdn.datatables.net/v/dt/jq-3.7.0/dt-1.13.6/datatables.min.css" rel="stylesheet">
     <script src="https://cdn.datatables.net/v/dt/jq-3.7.0/dt-1.13.6/datatables.min.js"></script>
 
-    <a href="/dashboard/post/new" class="btn btn-primary my-5">New Post</a>
+    <a href="/dashboard/post/new" class="btn btn-primary my-3">New Post</a>
 
-    <table id="example" class="display">
+    <table id="posts" class="display">
         <thead>
             <tr>
                 <th>ID</th>
@@ -51,7 +51,7 @@
     @endif
 
     <script>
-        $('#example').DataTable();
+        $('#posts').DataTable();
     </script>
 @endsection
 
