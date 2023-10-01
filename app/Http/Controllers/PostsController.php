@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\View\View;
 use Illuminate\Http\RedirectResponse;
 use App\Models\Post;
+use App\Models\User;
 
 class PostsController extends Controller
 {
@@ -18,6 +19,14 @@ class PostsController extends Controller
     public function getPostById(Request $request, $id) {
         $post = Post::findOrFail($id);
         return view('post', ['post' => $post]);
+    }
+
+
+    public function getPostsByUserId(Request $request, $user_id) {
+        $posts = Post::where('user_id', $user_id)->with('user:id,name')->orderBy('created_at', 'desc')->paginate(3);
+        $authors = User::select('id', 'name')->get();
+        $selected_author = User::select('name')->findOrFail($user_id);
+        return view('home', ['posts' => $posts, 'authors' => $authors, 'selected_author' => $selected_author->name]);
     }
 
     public function showNewPost(): View

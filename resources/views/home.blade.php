@@ -3,6 +3,15 @@
 @section('title', 'Home')
  
 @section('content')
+    <div class="dropdown my-3">
+        <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">{{$selected_author}}</button>
+        <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="/">All authors</a></li>
+        @foreach($authors as $author)
+            <li><a class="dropdown-item" href="/posts/{{$author->id}}">{{$author->name}}</a></li>
+        @endforeach
+        </ul>
+    </div>
    
     <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
         @foreach($posts as $post)
