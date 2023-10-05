@@ -7,12 +7,39 @@
     <link href="https://cdn.datatables.net/v/dt/jq-3.7.0/dt-1.13.6/datatables.min.css" rel="stylesheet">
     <script src="https://cdn.datatables.net/v/dt/jq-3.7.0/dt-1.13.6/datatables.min.js"></script>
 
-    <a href="/dashboard/post/new" class="btn btn-primary my-3">New Post</a>
+    <a href="/dashboard/category/new" class="btn btn-primary my-3">New Category</a>
+    <h4>Categories</h4>
+    <table id="categories" class="display">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>created_at</th>
+                <th>updated_at</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach($categories as $category)
+            <tr>
+                <td>{{$category->id}}</td>
+                <td>{{$category->name}}</td>
+                <td>{{$category->created_at}}</td>
+                <td>{{$category->updated_at}}</td>
+            </tr>
+            @endforeach
 
+        </tbody>
+    </table>
+
+    <hr><hr>
+
+    <a href="/dashboard/post/new" class="btn btn-primary my-3">New Post</a>
+    <h4>Posts</h4>
     <table id="posts" class="display">
         <thead>
             <tr>
                 <th>ID</th>
+                <th>Cats</th>
                 <th>Author</th>
                 <th>Title</th>
                 <th>Body</th>
@@ -26,6 +53,7 @@
             @foreach($posts as $post)
             <tr>
                 <td>{{$post->id}}</td>
+                <td title="{{$post->categories->pluck('name')}}">{{$post->categories->count()}}</td>
                 <td>
                     @if($post->user)
                         {{$post->user->name}}
@@ -50,14 +78,26 @@
     </table>
 
     @if(session('success'))
-        <div class="alert alert-success alert-dismissible fade show my-4" role="alert">
+        <div class="alert alert-success alert-dismissible fade show my-3" role="alert">
             {{session('success')}}
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
     @endif
 
     <script>
-        $('#posts').DataTable();
+        $('#categories').DataTable({
+            lengthMenu: [
+                [-1, 10, 25, 50, -1],
+                ['All', 10, 25, 50, 'All']
+            ]
+        });
+        
+        $('#posts').DataTable({
+            lengthMenu: [
+                [-1, 10, 25, 50, -1],
+                ['All', 10, 25, 50, 'All']
+            ]
+        });
     </script>
 @endsection
 
