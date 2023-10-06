@@ -14,7 +14,7 @@ class PostsController extends Controller
 {
     public function showDashboard(): View
     {
-        $posts = Post::with(['user:id,name', 'categories'])->get();
+        $posts = Post::withoutGlobalScopes()->with(['user:id,name', 'categories'])->get();
         $categories = Category::all();
         return view('dashboard', ['posts' => $posts, 'categories' => $categories]);
     }
@@ -55,13 +55,15 @@ class PostsController extends Controller
         $post->save();
         $post->categories()->sync($request->categories ? $request->categories : []);
  
-        return redirect('/dashboard');
+        return redirect()->route('dashboard')->withSuccess('Post id=' . $post->id . ' added');
     }
 
-    public function showEditPost(Request $request, $id): View
+    public function showEditPost(Request $request, $postId): View
     {
-        $categories = Category::all(['id', 'name']);
-        $post = Post::with('categories:id,name')->findOrFail($id);
+        $categories = Category::select('id', 'name')->withExists(['post' => function ($query) use ($postId) {
+            $query->where('post_id', $postId);
+        }])->get();
+        $post = Post::select('id' , 'title', 'body')->findOrFail($postId);
         return view('dashboard-edit-post', ['post' => $post, 'categories' => $categories]);
     }
 
@@ -85,9 +87,23 @@ class PostsController extends Controller
 
     public function deletePost(Request $request, $id): RedirectResponse
     {
-        $post = Post::findOrFail($id);
-        $post->delete();
+        $post = Post::withoutGlobalScopes()->findOrFail($id);
+        if($post->trashed()) {
+            $post->forceDelete();
+            $msg = 'Post id=' . $id . ' permanently deleted';
+        } else {
+            $post->delete();
+            $msg = 'Post id=' . $id . ' soft deleted';
+        }
 
-        return redirect()->back()->withSuccess('Post id=' . $id . ' deleted');
+        return redirect()->back()->withSuccess($msg);
+    }
+
+    public function restorePost(Request $request, $id): RedirectResponse
+    {
+        $post = Post::withoutGlobalScopes()->findOrFail($id);
+        $post->restore();
+
+        return redirect()->back()->withSuccess('Post id=' . $id . ' restored');
     }
 }

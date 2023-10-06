@@ -21,7 +21,7 @@
             <label for="categories">Choose categoeies:</label>
             <select class="form-select" id="categories" name="categories[]" multiple aria-label="multiple select example">
                 @foreach($categories as $category)
-                    <option value="{{$category->id}}"{{$post->categories->contains($category) ? ' selected' : ''}}>{{$category->name}}</option>
+                    <option value="{{$category->id}}"{{$category->post_exists ? ' selected' : ''}}>{{$category->name}}</option>
                 @endforeach
             </select>
         </div>

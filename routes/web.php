@@ -36,6 +36,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/dashboard/post/edit/{id}', [PostsController::class, 'showEditPost'])->name('dashboard.show.edit.post');
     Route::put('/dashboard/post/edit/{id}', [PostsController::class, 'updateEditPost'])->name('dashboard.update.edit.post');
     Route::delete('/dashboard/post/delete/{id}', [PostsController::class, 'deletePost'])->name('dashboard.delete.post');
+    Route::patch('/dashboard/post/restore/{id}', [PostsController::class, 'restorePost'])->name('dashboard.restore.post');
 
     Route::get('/dashboard/category/new', [CategoriesController::class, 'showNewCategoryForm'])->name('newCategoryForm');
     Route::post('/dashboard/category/new', [CategoriesController::class, 'createNewCategory'])->name('createCategory');

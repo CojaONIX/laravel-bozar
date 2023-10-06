@@ -7,31 +7,6 @@
     <link href="https://cdn.datatables.net/v/dt/jq-3.7.0/dt-1.13.6/datatables.min.css" rel="stylesheet">
     <script src="https://cdn.datatables.net/v/dt/jq-3.7.0/dt-1.13.6/datatables.min.js"></script>
 
-    <a href="/dashboard/category/new" class="btn btn-primary my-3">New Category</a>
-    <h4>Categories</h4>
-    <table id="categories" class="display">
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Name</th>
-                <th>created_at</th>
-                <th>updated_at</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach($categories as $category)
-            <tr>
-                <td>{{$category->id}}</td>
-                <td>{{$category->name}}</td>
-                <td>{{$category->created_at}}</td>
-                <td>{{$category->updated_at}}</td>
-            </tr>
-            @endforeach
-
-        </tbody>
-    </table>
-
-    <hr><hr>
 
     <a href="/dashboard/post/new" class="btn btn-primary my-3">New Post</a>
     <h4>Posts</h4>
@@ -63,12 +38,29 @@
                 <td>{{ \Illuminate\Support\Str::limit($post->body, 100, $end='...') }}</td>
                 <td>{{$post->created_at}}</td>
                 <td>{{$post->updated_at}}</td>
-                <td><a href="/dashboard/post/edit/{{$post->id}}" class="btn btn-outline-primary">Edit</a></td>
+                @if($post->trashed())
+                    <td>
+                        <form method="post" action="/dashboard/post/restore/{{$post->id}}">
+                            @csrf
+                            @method('patch')
+                            <button class="btn btn-outline-secondary" type="submit">Show</button>
+                        </form>
+                    </td>
+
+                @else
+                    <td><a href="/dashboard/post/edit/{{$post->id}}" class="btn btn-outline-primary">Edit</a></td>
+                @endif
+
                 <td>
                     <form method="post" action="/dashboard/post/delete/{{$post->id}}">
                         @csrf
                         @method('delete')
-                        <button class="btn btn-outline-danger" type="submit">Delete</button>
+                        @if($post->trashed())
+                            <button class="btn btn-outline-danger" type="submit">Delete</button>
+                        @else
+                            <button class="btn btn-outline-warning" type="submit">Hidde</button>
+                        @endif
+                        
                     </form>
                 </td>
             </tr>
@@ -77,12 +69,38 @@
         </tbody>
     </table>
 
+    <hr>
     @if(session('success'))
         <div class="alert alert-success alert-dismissible fade show my-3" role="alert">
             {{session('success')}}
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
-    @endif
+    @endif   
+    <hr>
+
+    <a href="/dashboard/category/new" class="btn btn-primary my-3">New Category</a>
+    <h4>Categories</h4>
+    <table id="categories" class="display">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>created_at</th>
+                <th>updated_at</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach($categories as $category)
+            <tr>
+                <td>{{$category->id}}</td>
+                <td>{{$category->name}}</td>
+                <td>{{$category->created_at}}</td>
+                <td>{{$category->updated_at}}</td>
+            </tr>
+            @endforeach
+
+        </tbody>
+    </table>
 
     <script>
         $('#categories').DataTable({
