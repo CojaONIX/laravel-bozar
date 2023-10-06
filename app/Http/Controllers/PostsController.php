@@ -9,6 +9,7 @@ use App\Models\Post;
 use App\Models\User;
 use App\Models\Category;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Requests\PostRequest;
 
 class PostsController extends Controller
 {
@@ -38,22 +39,19 @@ class PostsController extends Controller
         return view('dashboard-new-post', ['categories' => $categories]);
     }
 
-    public function createNewPost(Request $request): RedirectResponse
+    public function createNewPost(PostRequest $request): RedirectResponse
     {
-        $request->validate([
-            'title' => 'required|string|max:255',
-            'body' => 'required|string',
-            'categories' => 'sometimes|array'
-        ]);
+        // Retrieve the validated input data...
+        $validated = $request->validated();
 
         $post = new Post;
  
-        $post->title = $request->title;
-        $post->body = $request->body;
+        $post->title = $validated->title;
+        $post->body = $validated->body;
         $post->user_id = Auth::user()->id;
 
         $post->save();
-        $post->categories()->sync($request->categories ? $request->categories : []);
+        $post->categories()->sync($validated->categories ? $validated->categories : []);
  
         return redirect()->route('dashboard')->withSuccess('Post id=' . $post->id . ' added');
     }
@@ -67,20 +65,17 @@ class PostsController extends Controller
         return view('dashboard-edit-post', ['post' => $post, 'categories' => $categories]);
     }
 
-    public function updateEditPost(Request $request, $id): RedirectResponse
+    public function updateEditPost(PostRequest $request, $id): RedirectResponse
     {
-        $request->validate([
-            'title' => 'required|string|max:255',
-            'body' => 'required|string',
-            'categories' => 'sometimes|array'
-        ]);
-        
+        // Retrieve the validated input data...
+        $validated = $request->validated();
+
         $post = Post::findOrFail($id);
  
-        $post->title = $request->title;
-        $post->body = $request->body;
+        $post->title = $validated->title;
+        $post->body = $validated->body;
         $post->save();
-        $post->categories()->sync($request->categories ? $request->categories : []);
+        $post->categories()->sync($validated->categories ? $validated->categories : []);
 
         return redirect()->route('dashboard')->withSuccess('Post id=' . $id . ' edited');
     }
