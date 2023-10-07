@@ -23,6 +23,7 @@ Route::get('/', [PagesController::class, 'showHome']);
 Route::get('/test', [PagesController::class, 'showTest']);
 Route::get('/post/{id}', [PostsController::class, 'getPostById']);
 Route::get('/posts/{user_id}', [PostsController::class, 'getPostsByUserId']);
+Route::get('/search', [PostsController::class, 'searchPostsByTerm']);
 
 // ? Route::middleware(['auth', 'verified'])->group(function () {
 Route::middleware('auth')->group(function () {

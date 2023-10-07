@@ -20,13 +20,15 @@ class PostsController extends Controller
         return view('dashboard', ['posts' => $posts, 'categories' => $categories]);
     }
 
-    public function getPostById(Request $request, $id) {
+    public function getPostById(Request $request, $id): View
+    {
         $post = Post::findOrFail($id);
         return view('post', ['post' => $post]);
     }
 
 
-    public function getPostsByUserId(Request $request, $user_id) {
+    public function getPostsByUserId(Request $request, $user_id): View
+    {
         $posts = Post::where('user_id', $user_id)->with('user:id,name')->orderBy('created_at', 'desc')->paginate(3);
         $authors = User::select('id', 'name')->get();
         $selected_author = User::select('name')->findOrFail($user_id);
@@ -100,5 +102,17 @@ class PostsController extends Controller
         $post->restore();
 
         return redirect()->back()->withSuccess('Post id=' . $id . ' restored');
+    }
+
+    public function searchPostsByTerm(Request $request): View
+    {
+        $request->validate([
+            'term' => 'sometimes|string|max:255|nullable'
+        ]);
+        
+        $term = $request->term;
+        $posts = $term ? Post::where('title', 'like', '%' . $term . '%')->with('user:id,name')->orderBy('created_at', 'desc')->paginate(3) : Post::with('user:id,name')->orderBy('created_at', 'desc')->paginate(3);
+        $authors = User::select('id', 'name')->get();
+        return view('home', ['posts' => $posts, 'authors' => $authors, 'selected_author' => 'All authors', 'term' => $term]);
     }
 }
