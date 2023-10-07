@@ -10,6 +10,8 @@ use App\Models\User;
 use App\Models\Category;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\PostRequest;
+use Illuminate\Support\Str;
+use Intervention\Image\Facades\Image;
 
 class PostsController extends Controller
 {
@@ -50,8 +52,14 @@ class PostsController extends Controller
         $post->user_id = Auth::user()->id;
 
         $image = $request->image;
-        $path = $image->store('images');
-        $post->image = $path;
+        if($image) {
+            $path = $image->store('public');
+            $path = Str::of($path)->substr(7);
+            $post->image = $path;
+
+            $iImg = Image::make('storage/' . $path);
+            $iImg->fit(300, 100)->save();
+        }
 
         $post->save();
         $post->categories()->sync($request->categories ? $request->categories : []);

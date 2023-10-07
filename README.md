@@ -11,6 +11,9 @@
 
 - https://www.youtube.com/@BojanZarkovic/streams
 - https://github.com/BojanZarkovic/laravel-tutorial
+- https://fakerphp.github.io/
+- https://carbon.nesbot.com/
+- https://image.intervention.io/v2
 
 ## About Laravel
 

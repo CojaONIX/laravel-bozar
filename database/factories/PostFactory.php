@@ -17,7 +17,6 @@ class PostFactory extends Factory
      */
     public function definition(): array
     {
-        // https://fakerphp.github.io/
         return [
             'user_id' => User::pluck('id')->random(),
             'title' => fake()->sentence(),

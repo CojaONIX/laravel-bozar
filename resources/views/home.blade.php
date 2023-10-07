@@ -25,7 +25,12 @@
         @forelse($posts as $post)
         <div class="card-group">
             <div class="card">
-                <img src="https://picsum.photos/300/100.jpg?random={{$post->id}}" class="card-img-top" alt="...">
+                @isset($post->image)
+                    <img src="{{asset('storage/' . $post->image)}}" class="card-img-top" alt="...">
+                @else
+                    <img src="https://picsum.photos/300/100.jpg?random={{$post->id}}" class="card-img-top" alt="...">
+                @endisset
+
                 <div class="card-body">
                     <p class="card-text">{{$post->user->name}}<small class="text-muted float-end">{{\Carbon\Carbon::parse($post->created_at)->diffForHumans()}}</small></p>
                     <h3 class="card-title">{{$post->title}}</h3>

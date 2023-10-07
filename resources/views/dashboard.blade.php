@@ -18,6 +18,7 @@
                 <th>Author</th>
                 <th>Title</th>
                 <th>Body</th>
+                <TH>Image</TH>
                 <th>created_at</th>
                 <th>updated_at</th>
                 <th></th>
@@ -29,13 +30,22 @@
             <tr>
                 <td>{{$post->id}}</td>
                 <td title="{{$post->categories->pluck('name')}}">{{$post->categories->count()}}</td>
+                
                 <td>
                     @if($post->user)
                         {{$post->user->name}}
                     @endif
                 </td>
+
                 <td>{{$post->title}}</td>
                 <td>{{ \Illuminate\Support\Str::limit($post->body, 100, $end='...') }}</td>
+
+                <td>
+                    @if($post->image)
+                        <img src="{{'storage/' . $post->image}}" height="30">
+                    @endif
+                </td>
+
                 <td>{{$post->created_at}}</td>
                 <td>{{$post->updated_at}}</td>
                 @if($post->trashed())
