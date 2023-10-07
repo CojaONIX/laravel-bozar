@@ -24,7 +24,8 @@ class PostRequest extends FormRequest
         return [
             'title' => 'required|string|max:255',
             'body' => 'required|string',
-            'categories' => 'sometimes|array'
+            'categories' => 'sometimes|array',
+            'image' => 'sometimes|image'
         ];
     }
 }

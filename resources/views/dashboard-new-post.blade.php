@@ -4,7 +4,7 @@
  
 @section('content')
 
-    <form method="post" action="/dashboard/post/new">
+    <form method="post" action="/dashboard/post/new" enctype="multipart/form-data">
         @csrf
 
         <div class="form-floating mb-3">
@@ -14,6 +14,11 @@
         <div class="form-floating mb-3">
             <textarea class="form-control" placeholder="Body:" id="body" name="body" style="height: 200px">{{ old('body') }}</textarea>
             <label for="body">Body:</label>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label" for="image">Image:</label>
+            <input type="file" class="form-control" id="image" name="image" value="{{ old('image') }}">
         </div>
 
         <div class="mb-3">

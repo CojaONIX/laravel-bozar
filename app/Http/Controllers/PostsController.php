@@ -43,17 +43,18 @@ class PostsController extends Controller
 
     public function createNewPost(PostRequest $request): RedirectResponse
     {
-        // Retrieve the validated input data...
-        $validated = $request->validated();
-
         $post = new Post;
  
-        $post->title = $validated->title;
-        $post->body = $validated->body;
+        $post->title = $request->title;
+        $post->body = $request->body;
         $post->user_id = Auth::user()->id;
 
+        $image = $request->image;
+        $path = $image->store('images');
+        $post->image = $path;
+
         $post->save();
-        $post->categories()->sync($validated->categories ? $validated->categories : []);
+        $post->categories()->sync($request->categories ? $request->categories : []);
  
         return redirect()->route('dashboard')->withSuccess('Post id=' . $post->id . ' added');
     }
@@ -69,15 +70,12 @@ class PostsController extends Controller
 
     public function updateEditPost(PostRequest $request, $id): RedirectResponse
     {
-        // Retrieve the validated input data...
-        $validated = $request->validated();
-
         $post = Post::findOrFail($id);
  
-        $post->title = $validated->title;
-        $post->body = $validated->body;
+        $post->title = $request->title;
+        $post->body = $request->body;
         $post->save();
-        $post->categories()->sync($validated->categories ? $validated->categories : []);
+        $post->categories()->sync($request->categories ? $request->categories : []);
 
         return redirect()->route('dashboard')->withSuccess('Post id=' . $id . ' edited');
     }
