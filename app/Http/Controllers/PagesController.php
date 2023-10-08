@@ -4,11 +4,17 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\View\View;
+use Illuminate\Http\RedirectResponse;
 use App\Models\Post;
 use App\Models\User;
 use App\Models\Category;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Builder;
+
+// Mail
+use App\Http\Requests\SendContactFormMessageRequest;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\ContactForm;
 
 class PagesController extends Controller
 {
@@ -24,6 +30,20 @@ class PagesController extends Controller
         return view('home', ['posts' => $posts, 'authors' => $authors, 'selected_author' => 'All authors']);
     }
 
+    public function showContact(): View
+    {
+        return view('contact');
+    }
+
+    public function sendContactMessage(SendContactFormMessageRequest $request): RedirectResponse
+    {
+        $name = $request->name;
+        $email = $request->email;
+        $message = $request->message;
+
+        Mail::to('test@example.com')->send(new ContactForm($name, $email, $message));
+        return redirect()->route('home')->withSuccess('Your message was send successfully. Thank you.');
+    }
 
     public function showTest(Request $request): View
     {

@@ -16,6 +16,7 @@
 - https://image.intervention.io/v2
 - https://github.com/spatie/laravel-sluggable
 - https://stackoverflow.com/questions/38685019/laravel-listen-for-model-save-or-update-after-or-before-theyre-done
+- https://mailtrap.io/
 
 ## About Laravel
 
