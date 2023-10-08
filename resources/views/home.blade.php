@@ -44,7 +44,7 @@
                 </div>
 
                 <div class="card-footer">
-                    <a href="/post/{{$post->id}}" class="btn btn-primary float-end">Read more...</a>
+                    <a href="/post/{{$post->slug}}" class="btn btn-primary float-end">Read more...</a>
                 </div>
             </div>
         </div>

@@ -21,7 +21,8 @@ use App\Http\Controllers\CategoriesController;
 Route::get('/welcome', [PagesController::class, 'showWelcome']);
 Route::get('/', [PagesController::class, 'showHome']);
 Route::get('/test', [PagesController::class, 'showTest']);
-Route::get('/post/{id}', [PostsController::class, 'getPostById']);
+//Route::get('/post/{id}', [PostsController::class, 'getPostById']);
+Route::get('/post/{slug}', [PostsController::class, 'getPostBySlug']);
 Route::get('/posts/{user_id}', [PostsController::class, 'getPostsByUserId']);
 Route::get('/search', [PostsController::class, 'searchPostsByTerm']);
 

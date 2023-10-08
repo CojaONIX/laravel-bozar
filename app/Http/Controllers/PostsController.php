@@ -22,12 +22,17 @@ class PostsController extends Controller
         return view('dashboard', ['posts' => $posts, 'categories' => $categories]);
     }
 
-    public function getPostById(Request $request, $id): View
+    // public function getPostById(Request $request, $id): View
+    // {
+    //     $post = Post::findOrFail($id);
+    //     return view('post', ['post' => $post]);
+    // }
+
+    public function getPostBySlug(Request $request, $slug): View
     {
-        $post = Post::findOrFail($id);
+        $post = Post::where('slug', $slug)->firstOrFail();
         return view('post', ['post' => $post]);
     }
-
 
     public function getPostsByUserId(Request $request, $user_id): View
     {
@@ -50,6 +55,7 @@ class PostsController extends Controller
         $post->title = $request->title;
         $post->body = $request->body;
         $post->user_id = Auth::user()->id;
+        $post->slug = Str::slug($post->title, '-');
 
         $image = $request->image;
         if($image) {
@@ -82,6 +88,7 @@ class PostsController extends Controller
  
         $post->title = $request->title;
         $post->body = $request->body;
+        $post->slug = Str::slug($post->title, '-');
         $post->save();
         $post->categories()->sync($request->categories ? $request->categories : []);
 
