@@ -8,9 +8,10 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Category extends Model
 {
-    use HasFactory;
+    //use HasFactory;
 
     protected $fillable = ['name'];
+    public $timestamps = false;
 
     /**
      * The posts that belong to category.

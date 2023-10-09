@@ -18,6 +18,12 @@
 - https://stackoverflow.com/questions/38685019/laravel-listen-for-model-save-or-update-after-or-before-theyre-done
 - https://mailtrap.io/
 
+### Running Seeders
+- php artisan db:seed
+- php artisan db:seed --class=ClassSeeder
+
+
+
 ## About Laravel
 
 Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:

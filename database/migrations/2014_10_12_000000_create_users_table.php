@@ -24,14 +24,22 @@ return new class extends Migration
         });
 
         $users = json_decode(file_get_contents("database\users.json"), true);
-        //print_r($users['users']);
-        foreach ($users['users'] as $user) {
-            User::create([
-                'name' => $user['name'],
-                'email' => $user['email'],
-                'password' => Hash::make($user['password'])
-            ]);  
+        $now = now()->toDateTimeString();
+        foreach ($users as $key=>$value) {
+            $users[$key]['created_at']  = $now;
+            $users[$key]['updated_at']  = $now;
+            $users[$key]['password']  = Hash::make($users[$key]['password']);
         }
+
+        User::insert($users);
+
+        // foreach ($users as $user) {
+        //     User::create([
+        //         'name' => $user['name'],
+        //         'email' => $user['email'],
+        //         'password' => Hash::make($user['password'])
+        //     ]);  
+        // }
     }
 
     /**

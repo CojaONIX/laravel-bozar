@@ -1,24 +1,22 @@
-{
-    "users":[
-        {
-            "name": "super",
-            "email": "super@super.com",
-            "password": "supersuper"
-        },
-        {
-            "name": "admin",
-            "email": "admin@admin.com",
-            "password": "adminadmin"
-        },
-        {
-            "name": "test",
-            "email": "test@test.com",
-            "password": "testtest"
-        },
-        {
-            "name": "demo",
-            "email": "demo@demo.com",
-            "password": "demodemo"
-        }
-    ]
-}
+[
+    {
+        "name": "super",
+        "email": "super@super.com",
+        "password": "supersuper"
+    },
+    {
+        "name": "admin",
+        "email": "admin@admin.com",
+        "password": "adminadmin"
+    },
+    {
+        "name": "test",
+        "email": "test@test.com",
+        "password": "testtest"
+    },
+    {
+        "name": "demo",
+        "email": "demo@demo.com",
+        "password": "demodemo"
+    }
+]
