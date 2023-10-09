@@ -4,6 +4,8 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
+use App\Models\User;
+
 return new class extends Migration
 {
     /**
@@ -20,6 +22,16 @@ return new class extends Migration
             $table->rememberToken();
             $table->timestamps();
         });
+
+        $users = json_decode(file_get_contents("database\users.json"), true);
+        //print_r($users['users']);
+        foreach ($users['users'] as $user) {
+            User::create([
+                'name' => $user['name'],
+                'email' => $user['email'],
+                'password' => Hash::make($user['password'])
+            ]);  
+        }
     }
 
     /**

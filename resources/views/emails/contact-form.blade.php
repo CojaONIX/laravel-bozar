@@ -7,8 +7,19 @@ The body of your message.
 - Email: {{$email}}
 - Message: {{$message}}
 
-<x-mail::button :url="''">
-Button Text
+<x-mail::panel>
+This is the panel content.
+</x-mail::panel>
+
+<x-mail::table>
+| Laravel       | Table         | Example  |
+| ------------- |:-------------:| --------:|
+| Col 2 is      | Centered      | $10      |
+| Col 3 is      | Right-Aligned | $20      |
+</x-mail::table>
+
+<x-mail::button :url="''" color="success">
+Success
 </x-mail::button>
 
 Thanks,<br>

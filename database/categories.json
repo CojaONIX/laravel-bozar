@@ -1,0 +1,22 @@
+{
+    "categories":[
+        {
+            "name": "News"
+        },
+        {
+            "name": "Sport"
+        },
+        {
+            "name": "Music"
+        },
+        {
+            "name": "Art"
+        },
+        {
+            "name": "Health & Medicine"
+        },
+        {
+            "name": "Computers"
+        }
+    ]
+}
