@@ -23,23 +23,15 @@ return new class extends Migration
             $table->timestamps();
         });
 
-        $users = json_decode(file_get_contents("database\users.json"), true);
+        $users = json_decode(file_get_contents("database\default_data\users.json"), true);
         $now = now()->toDateTimeString();
-        foreach ($users as $key=>$value) {
-            $users[$key]['created_at']  = $now;
-            $users[$key]['updated_at']  = $now;
-            $users[$key]['password']  = Hash::make($users[$key]['password']);
+        foreach ($users as &$user) {
+            $user['created_at']  = $now;
+            $user['updated_at']  = $now;
+            $user['password']  = Hash::make($user['password']);
         }
 
         User::insert($users);
-
-        // foreach ($users as $user) {
-        //     User::create([
-        //         'name' => $user['name'],
-        //         'email' => $user['email'],
-        //         'password' => Hash::make($user['password'])
-        //     ]);  
-        // }
     }
 
     /**

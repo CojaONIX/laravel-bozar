@@ -18,9 +18,11 @@
 - https://stackoverflow.com/questions/38685019/laravel-listen-for-model-save-or-update-after-or-before-theyre-done
 - https://mailtrap.io/
 
-### Running Seeders
+### Artisan
 - php artisan db:seed
 - php artisan db:seed --class=ClassSeeder
+
+- php artisan serve
 
 
 

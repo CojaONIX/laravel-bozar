@@ -16,17 +16,10 @@ return new class extends Migration
         Schema::create('categories', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            //$table->timestamps();
         });
 
-        $categories = json_decode(file_get_contents("database\categories.json"), true);
-        Category::insert($categories['categories']);
-        //print_r($categories['categories']);
-        // foreach ($categories['categories'] as $category) {
-        //     Category::create([
-        //         'name' => $category['name']
-        //     ]);
-        // }
+        $categories = json_decode(file_get_contents("database\default_data\categories.json"), true);
+        Category::insert($categories);
     }
 
     /**
