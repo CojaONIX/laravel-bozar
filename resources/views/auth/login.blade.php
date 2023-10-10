@@ -19,14 +19,14 @@
         <div class="card-body">
             <form action="{{ route('login') }}" method="POST">
                 @csrf
-                <div class="form-group mb-3">
+                <div class="mb-3">
                     <label for="email">Email <span class="text-danger">* </span></label>
                     <input type="text" class="form-control mt-2" name="email" id="email" value="{{ old('email') }}" autofocus>
                     <x-input-error :messages="$errors->get('email')" class="mt-2 text-danger" />
                 </div>
                 
 
-                <div class="form-group mb-3">
+                <div class="mb-3">
                     <label for="password">Password <span class="text-danger">* </span></label>
                     <input type="password" class="form-control mt-2" name="password" id="password">
                     <x-input-error :messages="$errors->get('password')" class="mt-2 text-danger" />

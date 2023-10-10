@@ -15,7 +15,7 @@
             <form method="POST" action="{{ route('password.email') }}">
                 @csrf
 
-                <div class="form-group mb-3">
+                <div class="mb-3">
                     <label for="email">Email <span class="text-danger">* </span></label>
                     <input type="text" class="form-control my-5" name="email" id="email" value="{{ old('email') }}" autofocus>
                 </div>
