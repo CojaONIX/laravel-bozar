@@ -18,9 +18,9 @@ use App\Mail\ContactForm;
 
 class PagesController extends Controller
 {
-    public function showWelcome(): View
+    public function showOldView(Request $request, $old_view): View
     {
-        return view('welcome');
+        return view('old.' . $old_view);
     }
 
     public function showHome(): View

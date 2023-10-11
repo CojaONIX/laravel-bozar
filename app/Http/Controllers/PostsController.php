@@ -19,7 +19,7 @@ class PostsController extends Controller
     {
         $posts = Post::withoutGlobalScopes()->with(['user:id,name', 'categories'])->get();
         $categories = Category::all();
-        return view('dashboard', ['posts' => $posts, 'categories' => $categories]);
+        return view('admin.dashboard', ['posts' => $posts, 'categories' => $categories]);
     }
 
     // public function getPostById(Request $request, $id): View
@@ -45,7 +45,7 @@ class PostsController extends Controller
     public function showNewPost(): View
     {
         $categories = Category::all();
-        return view('dashboard-new-post', ['categories' => $categories]);
+        return view('admin.post-new', ['categories' => $categories]);
     }
 
     public function createNewPost(PostRequest $request): RedirectResponse
@@ -79,7 +79,7 @@ class PostsController extends Controller
             $query->where('post_id', $postId);
         }])->get();
         $post = Post::select('id' , 'title', 'body')->findOrFail($postId);
-        return view('dashboard-edit-post', ['post' => $post, 'categories' => $categories]);
+        return view('admin.post-edit', ['post' => $post, 'categories' => $categories]);
     }
 
     public function updateEditPost(PostRequest $request, $id): RedirectResponse

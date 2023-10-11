@@ -18,34 +18,44 @@ use App\Http\Controllers\CategoriesController;
 |
 */
 
-Route::get('/welcome', [PagesController::class, 'showWelcome']);
-Route::get('/', [PagesController::class, 'showHome'])->name('home');
-Route::get('/test', [PagesController::class, 'showTest']);
+Route::controller(PagesController::class)->group(function () {
+    Route::get('/', 'showHome')->name('home');
+    Route::get('/test', 'showTest');
+    Route::get('/old/{old_view}', 'showOldView');
 
-Route::get('/contact', [PagesController::class, 'showContact']);
-Route::post('/contact', [PagesController::class, 'sendContactMessage']);
-
-//Route::get('/post/{id}', [PostsController::class, 'getPostById']);
-Route::get('/post/{slug}', [PostsController::class, 'getPostBySlug']);
-Route::get('/posts/{user_id}', [PostsController::class, 'getPostsByUserId']);
-Route::get('/search', [PostsController::class, 'searchPostsByTerm']);
-
-// ? Route::middleware(['auth', 'verified'])->group(function () {
-Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-
-    Route::get('/dashboard', [PostsController::class, 'showDashboard'])->name('dashboard');
-    Route::get('/dashboard/post/new', [PostsController::class, 'showNewPost'])->name('dashboard.show.new.post');
-    Route::post('/dashboard/post/new', [PostsController::class, 'createNewPost'])->name('dashboard.create.new.post');
-    Route::get('/dashboard/post/edit/{id}', [PostsController::class, 'showEditPost'])->name('dashboard.show.edit.post');
-    Route::put('/dashboard/post/edit/{id}', [PostsController::class, 'updateEditPost'])->name('dashboard.update.edit.post');
-    Route::delete('/dashboard/post/delete/{id}', [PostsController::class, 'deletePost'])->name('dashboard.delete.post');
-    Route::patch('/dashboard/post/restore/{id}', [PostsController::class, 'restorePost'])->name('dashboard.restore.post');
-
-    Route::get('/dashboard/category/new', [CategoriesController::class, 'showNewCategoryForm'])->name('newCategoryForm');
-    Route::post('/dashboard/category/new', [CategoriesController::class, 'createNewCategory'])->name('createCategory');
+    Route::get('/contact', 'showContact');
+    Route::post('/contact', 'sendContactMessage');
 });
+
+Route::controller(PostsController::class)->group(function () {
+    //Route::get('/post/{id}', 'getPostById');
+    Route::get('/post/{slug}', 'getPostBySlug');
+    Route::get('/posts/{user_id}', 'getPostsByUserId');
+    Route::get('/search', 'searchPostsByTerm');
+});
+
+Route::middleware('auth')->group(function () {
+    Route::controller(ProfileController::class)->group(function () {
+        Route::get('/profile', 'edit')->name('profile.edit');
+        Route::patch('/profile', 'update')->name('profile.update');
+        Route::delete('/profile', 'destroy')->name('profile.destroy');
+    });
+
+    Route::controller(PostsController::class)->group(function () {
+        Route::get('/dashboard', 'showDashboard')->name('dashboard');
+        Route::get('/dashboard/post/new', 'showNewPost')->name('post.create.form');
+        Route::post('/dashboard/post/new', 'createNewPost')->name('post.create');
+        Route::get('/dashboard/post/edit/{id}', 'showEditPost')->name('post.edit.form');
+        Route::put('/dashboard/post/edit/{id}', 'updateEditPost')->name('post.edit');
+        Route::delete('/dashboard/post/delete/{id}', 'deletePost')->name('post.soft.delete');
+        Route::patch('/dashboard/post/restore/{id}', 'restorePost')->name('post.soft.restore');
+    });
+
+    Route::controller(CategoriesController::class)->group(function () {
+        Route::get('/dashboard/category/new', 'showNewCategoryForm')->name('category.create.form');
+        Route::post('/dashboard/category/new', 'createNewCategory')->name('category.create');
+    });
+});
+
 
 require __DIR__.'/auth.php';

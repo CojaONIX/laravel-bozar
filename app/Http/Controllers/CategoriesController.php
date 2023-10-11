@@ -12,7 +12,7 @@ class CategoriesController extends Controller
 {
     public function showNewCategoryForm(): View
     {
-        return view('dashboard-new-category');
+        return view('admin.category-new');
     }
 
     public function createNewCategory(Request $request): RedirectResponse

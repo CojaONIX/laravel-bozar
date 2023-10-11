@@ -20,15 +20,19 @@
                     <li class="nav-item"><a class="nav-link active" href="/">Home</a></li>
                     <li class="nav-item"><a class="nav-link" href="/test">Test</a></li>
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Dropdown</a>
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Old</a>
                         <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="#">Action</a></li>
-                            <li><a class="dropdown-item" href="#">Another action</a></li>
+                            <li><a class="dropdown-item" href="/old/welcome">Welcome</a></li>
                             <li><hr class="dropdown-divider"></li>
-                            <li><a class="dropdown-item" href="#">Something else here</a></li>
+                            <li><a class="dropdown-item" href="/old/login">login</a></li>
+                            <li><a class="dropdown-item" href="/old/register">register</a></li>
+                            <li><a class="dropdown-item" href="/old/forgot-password">forgot-password</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="/old/confirm-password">confirm-password</a></li>
+                            <li><a class="dropdown-item" href="/old/reset-password">reset-password ???</a></li>
+                            <li><a class="dropdown-item" href="/old/verify-email">verify-email</a></li>
                         </ul>
                     </li>
-                    <li class="nav-item"><a class="nav-link" href="/welcome">Welcome</a></li>
                     <li class="nav-item"><a class="nav-link" href="/contact">Contact</a></li>
                 </ul>
 
