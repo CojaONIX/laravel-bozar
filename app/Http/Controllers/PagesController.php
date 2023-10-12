@@ -8,6 +8,7 @@ use Illuminate\Http\RedirectResponse;
 use App\Models\Post;
 use App\Models\User;
 use App\Models\Category;
+use App\Models\Role;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Builder;
 
@@ -50,14 +51,18 @@ class PagesController extends Controller
         $postId = 147;
         $categoryId = 1;
         $obj = [
+
+            'roles_with_user' => Role::with('users:name,email,role_id')->get(),
+            'user_with_roles' => User::with('role:id,name')->get(),
+
             // 'postsByCategory2' => Category::where('id', $categoryId)->with('post')->get(),
             // 'postsByCategory1' => Post::whereHas('categories', function (Builder $query) use ($categoryId) {
             //     $query->where('category_id', '=', $categoryId);
             // })->get(),
 
-            'post_exists' => Category::select('id', 'name')->withExists(['post' => function ($query) use ($postId) {
-                $query->where('post_id', $postId);
-            }])->get(),
+            // 'post_exists' => Category::select('id', 'name')->withExists(['post' => function ($query) use ($postId) {
+            //     $query->where('post_id', $postId);
+            // }])->get(),
 
             // 'edit post multiselect' => ['post' => Post::with('categories:id,name')->findOrFail(145), 'categories' => Category::all(['id', 'name'])],
             // 'posts_categories' => Post::with('user:id,name', 'categories:id,name')->orderBy('created_at', 'desc')->paginate(3),

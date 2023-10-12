@@ -20,6 +20,8 @@
 - https://mailtrap.io/
 
 ### Artisan
+- php artisan make:model Model -crm
+
 - php artisan db:seed
 - php artisan db:seed --class=ClassSeeder
 

@@ -1,0 +1,22 @@
+[
+    {
+        "id": 1,
+        "name": "super"
+    },
+    {
+        "id": 2,
+        "name": "admin"
+    },
+    {
+        "id": 3,
+        "name": "test"
+    },
+    {
+        "id": 4,
+        "name": "demo"
+    },
+    {
+        "id": 9,
+        "name": "user"
+    }
+]

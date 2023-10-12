@@ -4,8 +4,6 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-use App\Models\User;
-
 return new class extends Migration
 {
     /**
@@ -20,18 +18,13 @@ return new class extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->rememberToken();
+            $table->foreignId('role_id')
+                    ->default(9)
+                    ->constrained()
+                    ->onUpdate('cascade')
+                    ->onDelete('cascade');
             $table->timestamps();
         });
-
-        $users = json_decode(file_get_contents("database\default_data\users.json"), true);
-        $now = now()->toDateTimeString();
-        foreach ($users as &$user) {
-            $user['created_at']  = $now;
-            $user['updated_at']  = $now;
-            $user['password']  = Hash::make($user['password']);
-        }
-
-        User::insert($users);
     }
 
     /**

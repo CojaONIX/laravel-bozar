@@ -2,21 +2,31 @@
     {
         "name": "super",
         "email": "super@super.com",
-        "password": "supersuper"
+        "password": "supersuper",
+        "role_id": 1
     },
     {
         "name": "admin",
         "email": "admin@admin.com",
-        "password": "adminadmin"
+        "password": "adminadmin",
+        "role_id": 2
     },
     {
         "name": "test",
         "email": "test@test.com",
-        "password": "testtest"
+        "password": "testtest",
+        "role_id": 3
     },
     {
         "name": "demo",
         "email": "demo@demo.com",
-        "password": "demodemo"
+        "password": "demodemo",
+        "role_id": 4
+    },
+    {
+        "name": "user",
+        "email": "user@user.com",
+        "password": "useruser",
+        "role_id": 9
     }
 ]
