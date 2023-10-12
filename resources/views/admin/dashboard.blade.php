@@ -1,12 +1,13 @@
 @extends('layouts.blog')
 
 @section('title', 'Dashboard')
- 
-@section('content')
 
+@section('add_install')
     <link href="https://cdn.datatables.net/v/dt/jq-3.7.0/dt-1.13.6/datatables.min.css" rel="stylesheet">
     <script src="https://cdn.datatables.net/v/dt/jq-3.7.0/dt-1.13.6/datatables.min.js"></script>
-
+@endsection
+ 
+@section('content')
 
     <a href="/dashboard/post/new" class="btn btn-primary my-3">New Post</a>
     <h4>Posts</h4>
@@ -118,8 +119,8 @@
         
         $('#posts').DataTable({
             lengthMenu: [
-                [-1, 10, 25, 50, -1],
-                ['All', 10, 25, 50, 'All']
+                [5, 10, 25, 50, -1],
+                [5, 10, 25, 50, 'All']
             ]
         });
     </script>
