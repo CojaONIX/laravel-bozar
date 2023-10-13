@@ -10,6 +10,12 @@ use App\Models\Category;
 
 class CategoriesController extends Controller
 {
+    public function showCategories(): View
+    {
+        $categories = Category::all();
+        return view('admin.categories', ['categories' => $categories]);
+    }
+
     public function showNewCategoryForm(): View
     {
         return view('admin.category-new');

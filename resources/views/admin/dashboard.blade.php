@@ -9,120 +9,23 @@
  
 @section('content')
 
-    <a href="/dashboard/post/new" class="btn btn-primary my-3">New Post</a>
-    <h4>Posts</h4>
-    <table id="posts" class="display">
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Cats</th>
-                <th>Author</th>
-                <th>Title</th>
-                <th>Body</th>
-                <TH>Image</TH>
-                <th>created_at</th>
-                <th>updated_at</th>
-                <th></th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach($posts as $post)
-            <tr>
-                <td>{{$post->id}}</td>
-                <td title="{{$post->categories->pluck('name')}}">{{$post->categories->count()}}</td>
-                
-                <td>
-                    @if($post->user)
-                        {{$post->user->name}}
-                    @endif
-                </td>
+<div class="d-flex flex-nowrap">
 
-                <td>{{$post->title}}</td>
-                <td>{{ \Illuminate\Support\Str::limit($post->body, 100, $end='...') }}</td>
+    <x-sidebar/>
 
-                <td>
-                    @if($post->image)
-                        <img src="{{'storage/' . $post->image}}" height="30">
-                    @endif
-                </td>
-
-                <td>{{$post->created_at}}</td>
-                <td>{{$post->updated_at}}</td>
-                @if($post->trashed())
-                    <td>
-                        <form method="post" action="/dashboard/post/restore/{{$post->id}}">
-                            @csrf
-                            @method('patch')
-                            <button class="btn btn-outline-secondary" type="submit">Show</button>
-                        </form>
-                    </td>
-
-                @else
-                    <td><a href="/dashboard/post/edit/{{$post->id}}" class="btn btn-outline-primary">Edit</a></td>
-                @endif
-
-                <td>
-                    <form method="post" action="/dashboard/post/delete/{{$post->id}}">
-                        @csrf
-                        @method('delete')
-                        @if($post->trashed())
-                            <button class="btn btn-outline-danger" type="submit">Delete</button>
-                        @else
-                            <button class="btn btn-outline-warning" type="submit">Hidde</button>
-                        @endif
-                        
-                    </form>
-                </td>
-            </tr>
-            @endforeach
-
-        </tbody>
-    </table>
-
-    <hr>
-    @if(session('success'))
-        <div class="alert alert-success alert-dismissible fade show my-3" role="alert">
-            {{session('success')}}
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    <div class="jumbotron jumbotron-fluid">
+        <div class="container">
+          <h1 class="display-4">Hi, {{Auth::user()->name}}</h1>
+          <p class="lead">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Repellendus ratione dignissimos illo animi numquam vitae iure nemo, commodi maxime quibusdam velit ipsam, ab excepturi fuga distinctio, sit itaque debitis aperiam rerum accusamus consequatur ad iste tenetur a? Laudantium amet, totam libero quas architecto pariatur sit quia voluptatum. Nulla excepturi eos voluptatum provident vero qui iure est neque pariatur numquam et, ducimus quaerat doloribus? Libero atque velit dolorum fugiat doloremque ad, doloribus quo itaque? Facere amet, dignissimos eius enim repudiandae cum porro at fuga quod temporibus dolor officiis dicta assumenda fugit sapiente. Quidem inventore eos dolorem voluptatum unde fugit praesentium explicabo iste assumenda impedit recusandae necessitatibus ipsa iure quam, omnis deleniti perferendis minus fugiat. Provident, quos placeat amet totam illum porro sunt fuga obcaecati, iusto quibusdam odit quo praesentium quisquam repellendus mollitia corrupti ab inventore enim officia libero iste debitis velit veniam nostrum? Nobis, odio officia minus excepturi dicta nulla nesciunt ipsa amet ab perspiciatis iure incidunt temporibus. Illum at vel, ratione nisi culpa excepturi id. Quo vero enim earum quam impedit tempora eveniet ab suscipit dolores id totam laboriosam vel quia, eligendi numquam a qui sit, dignissimos sequi magni laborum dolore consequatur. Commodi at, suscipit quaerat ad quidem tempore blanditiis maiores, perferendis quam mollitia possimus eum velit earum culpa? Optio aliquid saepe, doloribus hic quas aut amet labore adipisci quidem iusto, est, ratione illum vel laborum recusandae aperiam provident obcaecati quod repellendus! Magni unde repudiandae, corporis cum deserunt perferendis voluptates, sapiente possimus deleniti ab rem expedita aliquid. Ut amet corporis nam placeat asperiores dignissimos? Iusto et dolorem modi! Quos ea blanditiis eveniet obcaecati nam, sunt quasi at expedita sit ipsa libero error repellat eos accusantium nulla tenetur maxime vel voluptatum? Impedit quod sapiente earum labore reiciendis, nam perferendis neque ullam voluptatem exercitationem officia ea beatae, quae laudantium provident quas soluta.</p>
         </div>
-    @endif   
-    <hr>
+      </div>
+</div>
 
-    <a href="/dashboard/category/new" class="btn btn-primary my-3">New Category</a>
-    <h4>Categories</h4>
-    <table id="categories" class="display">
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Name</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach($categories as $category)
-            <tr>
-                <td>{{$category->id}}</td>
-                <td>{{$category->name}}</td>
-            </tr>
-            @endforeach
+<script>
 
-        </tbody>
-    </table>
+  $("#menu li:nth-child(1) a").addClass("active");
 
-    <script>
-        $('#categories').DataTable({
-            lengthMenu: [
-                [-1, 10, 25, 50, -1],
-                ['All', 10, 25, 50, 'All']
-            ]
-        });
-        
-        $('#posts').DataTable({
-            lengthMenu: [
-                [5, 10, 25, 50, -1],
-                [5, 10, 25, 50, 'All']
-            ]
-        });
-    </script>
+</script>
+
 @endsection
 

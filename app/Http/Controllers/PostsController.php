@@ -17,9 +17,22 @@ class PostsController extends Controller
 {
     public function showDashboard(): View
     {
-        $posts = Post::withoutGlobalScopes()->with(['user:id,name', 'categories'])->get();
-        $categories = Category::all();
-        return view('admin.dashboard', ['posts' => $posts, 'categories' => $categories]);
+        if(Auth::user()->role_id == 9) {
+            $posts = Post::withoutGlobalScopes()->where('user_id', '=', Auth::id())->with(['user:id,name', 'categories'])->get();
+        } else {
+            $posts = Post::withoutGlobalScopes()->with(['user:id,name', 'categories'])->get();
+        }
+        return view('admin.dashboard', ['posts' => $posts]);
+    }
+
+    public function showPosts(): View
+    {
+        if(Auth::user()->role_id == 9) {
+            $posts = Post::withoutGlobalScopes()->where('user_id', '=', Auth::id())->with(['user:id,name', 'categories'])->get();
+        } else {
+            $posts = Post::withoutGlobalScopes()->with(['user:id,name', 'categories'])->get();
+        }
+        return view('admin.posts', ['posts' => $posts]);
     }
 
     // public function getPostById(Request $request, $id): View

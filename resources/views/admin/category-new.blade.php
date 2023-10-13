@@ -1,28 +1,48 @@
 @extends('layouts.blog')
 
-@section('title', 'New Post')
+@section('title', 'New Categpry')
+
+@section('add_install')
+    <link href="https://cdn.datatables.net/v/dt/jq-3.7.0/dt-1.13.6/datatables.min.css" rel="stylesheet">
+    <script src="https://cdn.datatables.net/v/dt/jq-3.7.0/dt-1.13.6/datatables.min.js"></script>
+@endsection
  
 @section('content')
 
-    <form method="post" action="/dashboard/category/new">
-        @csrf
+<div class="d-flex flex-nowrap">
 
-        <div class="form-floating mb-3">
-            <input type="text" class="form-control" id="name" name="name" placeholder="Name:" autofocus value="{{ old('name') }}">
-            <label for="name">Name:</label>
-        </div>
-        
-        <button class="btn btn-outline-primary col-12 my-3" type="submit">Save</button>
-    </form>
+    <x-sidebar/>
 
-    @if ($errors->any())
-        <div class="alert alert-danger">
-            <ul>
-                @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-            </ul>
-        </div>
-    @endif
+    <div class="col-8 m-5">
+
+        <form method="post" action="/dashboard/category/new">
+            @csrf
+
+            <div class="form-floating mb-3">
+                <input type="text" class="form-control" id="name" name="name" placeholder="Name:" autofocus value="{{ old('name') }}">
+                <label for="name">Name:</label>
+            </div>
+            
+            <button class="btn btn-outline-primary col-12 my-3" type="submit">Save</button>
+        </form>
+
+        @if ($errors->any())
+            <div class="alert alert-danger">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
+    </div>
+
+</div>
+
+<script>
+
+    $("#menu li:nth-child(4) a").addClass("active");
+
+</script>
 @endsection
 

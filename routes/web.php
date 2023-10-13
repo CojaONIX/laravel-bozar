@@ -43,6 +43,7 @@ Route::middleware('auth')->group(function () {
 
     Route::controller(PostsController::class)->group(function () {
         Route::get('/dashboard', 'showDashboard')->name('dashboard');
+        Route::get('/dashboard/posts', 'showPosts')->name('dashboard.posts');
         Route::get('/dashboard/post/new', 'showNewPost')->name('post.create.form');
         Route::post('/dashboard/post/new', 'createNewPost')->name('post.create');
         Route::get('/dashboard/post/edit/{id}', 'showEditPost')->name('post.edit.form');
@@ -52,6 +53,7 @@ Route::middleware('auth')->group(function () {
     });
 
     Route::controller(CategoriesController::class)->group(function () {
+        Route::get('/dashboard/categories', 'showCategories')->name('dashboard.categories');
         Route::get('/dashboard/category/new', 'showNewCategoryForm')->name('category.create.form');
         Route::post('/dashboard/category/new', 'createNewCategory')->name('category.create');
     });
