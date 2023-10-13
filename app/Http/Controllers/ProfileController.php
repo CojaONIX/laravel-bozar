@@ -9,8 +9,19 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
 
+use App\Models\User;
+
 class ProfileController extends Controller
 {
+    public function all(Request $request): View
+    {
+        if(Auth::user()->role_id == 9) {
+            abort(404);
+        }
+        $users = User::all();
+        return view('admin.profiles', ['users' => $users, 'activee' => '3']);
+    }
+
     /**
      * Display the user's profile form.
      */

@@ -22,7 +22,7 @@ class PostsController extends Controller
         } else {
             $posts = Post::withoutGlobalScopes()->with(['user:id,name', 'categories'])->get();
         }
-        return view('admin.dashboard', ['posts' => $posts]);
+        return view('admin.dashboard', ['posts' => $posts, 'activee' => '1']);
     }
 
     public function showPosts(): View
@@ -32,7 +32,7 @@ class PostsController extends Controller
         } else {
             $posts = Post::withoutGlobalScopes()->with(['user:id,name', 'categories'])->get();
         }
-        return view('admin.posts', ['posts' => $posts]);
+        return view('admin.posts', ['posts' => $posts, 'activee' => '2']);
     }
 
     // public function getPostById(Request $request, $id): View
@@ -58,7 +58,7 @@ class PostsController extends Controller
     public function showNewPost(): View
     {
         $categories = Category::all();
-        return view('admin.post-new', ['categories' => $categories]);
+        return view('admin.post-new', ['categories' => $categories, 'activee' => '2']);
     }
 
     public function createNewPost(PostRequest $request): RedirectResponse
@@ -83,7 +83,7 @@ class PostsController extends Controller
         $post->save();
         $post->categories()->sync($request->categories ? $request->categories : []);
  
-        return redirect()->route('dashboard')->withSuccess('Post id=' . $post->id . ' added');
+        return redirect()->route('dashboard.posts')->withSuccess('Post id=' . $post->id . ' added');
     }
 
     public function showEditPost(Request $request, $postId): View
@@ -92,7 +92,7 @@ class PostsController extends Controller
             $query->where('post_id', $postId);
         }])->get();
         $post = Post::select('id' , 'title', 'body')->findOrFail($postId);
-        return view('admin.post-edit', ['post' => $post, 'categories' => $categories]);
+        return view('admin.post-edit', ['post' => $post, 'categories' => $categories, 'activee' => '2']);
     }
 
     public function updateEditPost(PostRequest $request, $id): RedirectResponse
@@ -105,7 +105,7 @@ class PostsController extends Controller
         $post->save();
         $post->categories()->sync($request->categories ? $request->categories : []);
 
-        return redirect()->route('dashboard')->withSuccess('Post id=' . $id . ' edited');
+        return redirect()->route('dashboard.posts')->withSuccess('Post id=' . $id . ' edited');
     }
 
     public function deletePost(Request $request, $id): RedirectResponse

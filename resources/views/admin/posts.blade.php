@@ -11,7 +11,7 @@
 
 <div class="d-flex flex-nowrap">
 
-    <x-sidebar/>
+    <x-sidebar :activee="$activee"/>
 
     <div class="m-3">
         <a href="/dashboard/post/new" class="btn btn-primary my-3">New Post</a>
@@ -103,8 +103,6 @@
                 [5, 10, 25, 50, 'All']
             ]
         });
-
-        $("#menu li:nth-child(2) a").addClass("active");
     </script>
 @endsection
 

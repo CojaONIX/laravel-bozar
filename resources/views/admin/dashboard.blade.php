@@ -11,7 +11,7 @@
 
 <div class="d-flex flex-nowrap">
 
-    <x-sidebar/>
+    <x-sidebar :activee="$activee"/>
 
     <div class="jumbotron jumbotron-fluid">
         <div class="container">
@@ -20,12 +20,6 @@
         </div>
       </div>
 </div>
-
-<script>
-
-  $("#menu li:nth-child(1) a").addClass("active");
-
-</script>
 
 @endsection
 

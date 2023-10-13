@@ -11,7 +11,7 @@
 
 <div class="d-flex flex-nowrap">
 
-    <x-sidebar/>
+    <x-sidebar :activee="$activee"/>
 
     <div class="col-8 m-5">
 
@@ -39,10 +39,5 @@
 
 </div>
 
-<script>
-
-    $("#menu li:nth-child(4) a").addClass("active");
-
-</script>
 @endsection
 

@@ -15,20 +15,23 @@
 
     <div class="col-8 m-5">
 
-        <a href="/dashboard/category/new" class="btn btn-primary my-3">New Category</a>
-        <h4>Categories</h4>
-        <table id="categories" class="display">
+        <h4>Users</h4>
+        <table id="users" class="display">
             <thead>
                 <tr>
                     <th>ID</th>
                     <th>Name</th>
+                    <th>Email</th>
+                    <th>Role</th>
                 </tr>
             </thead>
             <tbody>
-                @foreach($categories as $category)
+                @foreach($users as $user)
                 <tr>
-                    <td>{{$category->id}}</td>
-                    <td>{{$category->name}}</td>
+                    <td>{{$user->id}}</td>
+                    <td>{{$user->name}}</td>
+                    <td>{{$user->email}}</td>
+                    <td>{{$user->role_id}}</td>
                 </tr>
                 @endforeach
 
@@ -48,7 +51,7 @@
 </div>
 
     <script>
-        $('#categories').DataTable({
+        $('#users').DataTable({
             lengthMenu: [
                 [-1, 10, 25, 50, -1],
                 ['All', 10, 25, 50, 'All']

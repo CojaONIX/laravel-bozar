@@ -11,7 +11,7 @@
 
 <div class="d-flex flex-nowrap">
 
-    <x-sidebar/>
+    <x-sidebar :activee="$activee"/>
 
     <div class="col-8 m-5">
         <form method="post" action="/dashboard/post/edit/{{$post->id}}">
@@ -51,10 +51,6 @@
     </div>
 
 </div>
-
-<script>
-    $("#menu li:nth-child(2) a").addClass("active");
-</script>
 
 @endsection
 
