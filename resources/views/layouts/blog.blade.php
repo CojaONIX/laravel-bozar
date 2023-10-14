@@ -72,5 +72,6 @@
 
     </div>
 
+    @yield('JavaScript')
 </body>
 </html>

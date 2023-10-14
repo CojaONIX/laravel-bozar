@@ -12,7 +12,5 @@
 </div>
 
 <script>
-
     $("#menu li:nth-child(" + {{$activee}} + ") a").addClass("active");
-
 </script>

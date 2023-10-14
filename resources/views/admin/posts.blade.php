@@ -95,7 +95,9 @@
         <hr>
     </div>
 </div>
+@endsection
 
+@section('JavaScript')
     <script>
         $('#posts').DataTable({
             lengthMenu: [

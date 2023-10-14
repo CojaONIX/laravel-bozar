@@ -141,4 +141,14 @@ class PostsController extends Controller
         $authors = User::select('id', 'name')->withCount('posts')->get();
         return view('home', ['posts' => $posts, 'authors' => $authors, 'selected_author' => 'All authors', 'term' => $term]);
     }
+
+    
+    public function ajaxRate(Request $request)
+    {
+        
+        return response()->json([
+            'request' => $request->val,
+            'response' => $request->val * $request->val
+        ]);
+    }
 }

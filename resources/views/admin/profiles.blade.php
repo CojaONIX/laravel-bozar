@@ -49,14 +49,16 @@
     </div>
 
 </div>
+@endsection
 
-    <script>
-        $('#users').DataTable({
-            lengthMenu: [
-                [-1, 10, 25, 50, -1],
-                ['All', 10, 25, 50, 'All']
-            ]
-        });
-    </script>
+@section('JavaScript')
+<script>
+    $('#users').DataTable({
+        lengthMenu: [
+            [-1, 10, 25, 50, -1],
+            ['All', 10, 25, 50, 'All']
+        ]
+    });
+</script>
 @endsection
 
