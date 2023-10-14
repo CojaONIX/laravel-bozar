@@ -12,8 +12,8 @@
         </div>
 
         <div class="col-lg-3">
-            <img src="https://picsum.photos/300/300.jpg?random={{$post->id}}" class="col-12 my-2" alt="...">
-            <img src="https://picsum.photos/300/300.jpg?random={{$post->id + 1}}" class="col-12 my-2" alt="...">
+            <img src="https://picsum.photos/id/{{$post->id}}/300/100.jpg" class="col-12 my-2" alt="...">
+            <img src="https://picsum.photos/id/{{$post->id + 1}}/300/100.jpg" class="col-12 my-2" alt="...">
         </div>
     </div>
 

@@ -8,7 +8,7 @@ use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use App\Models\Post;
-use App\Models\User;
+use App\Models\Category;
 
 class PostSeeder extends Seeder
 {
@@ -17,6 +17,11 @@ class PostSeeder extends Seeder
      */
     public function run(): void
     {
-        Post::factory()->count(30)->create();
+        $posts = Post::factory()->count(30)->create();
+
+        $categories = Category::all()->pluck('id');
+        $posts->each(function ($post) use ($categories) { 
+            $post->categories()->sync($categories->random(rand(1, 2)));
+        });
     }
 }

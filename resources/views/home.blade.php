@@ -8,9 +8,9 @@
         <div class="dropdown my-3 col-2">
             <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">{{$selected_author}}</button>
             <ul class="dropdown-menu">
-                <li><a class="dropdown-item" href="/">All authors</a></li>
+                <li><a class="dropdown-item d-flex justify-content-between" href="/">All authors <span class="badge text-bg-dark ms-3">{{$authors->sum('posts_count')}}</span></a></li>
             @foreach($authors as $author)
-                <li><a class="dropdown-item" href="/posts/{{$author->id}}">{{$author->name}}</a></li>
+                <li><a class="dropdown-item d-flex justify-content-between" href="/posts/{{$author->id}}">{{$author->name}} <span class="badge text-bg-secondary ms-3">{{$author->posts_count}}</span></a></li>
             @endforeach
             </ul>
         </div>
@@ -28,7 +28,7 @@
                 @isset($post->image)
                     <img src="{{asset('storage/' . $post->image)}}" class="card-img-top" alt="...">
                 @else
-                    <img src="https://picsum.photos/300/100.jpg?random={{$post->id}}" class="card-img-top" alt="...">
+                    <img src="https://picsum.photos/id/{{$post->id}}/300/100.jpg" class="card-img-top" alt="...">
                 @endisset
 
                 <div class="card-body">

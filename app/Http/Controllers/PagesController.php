@@ -27,7 +27,7 @@ class PagesController extends Controller
     public function showHome(): View
     {
         $posts = Post::with('user:id,name', 'categories:id,name')->orderBy('created_at', 'desc')->paginate(3);
-        $authors = User::select('id', 'name')->get();
+        $authors = User::select('id', 'name')->withCount('posts')->get();
         return view('home', ['posts' => $posts, 'authors' => $authors, 'selected_author' => 'All authors']);
     }
 
@@ -51,9 +51,10 @@ class PagesController extends Controller
         $postId = 147;
         $categoryId = 1;
         $obj = [
+            'user posts count' => User::select('id', 'name')->withCount('posts')->get(),
 
-            'roles_with_user' => Role::with('users:name,email,role_id')->get(),
-            'user_with_roles' => User::with('role:id,name')->get(),
+            // 'roles_with_user' => Role::with('users:name,email,role_id')->get(),
+            // 'user_with_roles' => User::with('role:id,name')->get(),
 
             // 'postsByCategory2' => Category::where('id', $categoryId)->with('post')->get(),
             // 'postsByCategory1' => Post::whereHas('categories', function (Builder $query) use ($categoryId) {
