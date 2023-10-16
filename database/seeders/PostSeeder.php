@@ -22,6 +22,11 @@ class PostSeeder extends Seeder
         $categories = Category::all()->pluck('id');
         $posts->each(function ($post) use ($categories) { 
             $post->categories()->sync($categories->random(rand(1, 2)));
+            // $post->user_rate()->attach([[
+            //     'user_id' => rand(1, 5),
+            //     'post_id' => rand(1, 30),
+            //     'rate' => rand(1, 5)
+            // ]]);
         });
     }
 }

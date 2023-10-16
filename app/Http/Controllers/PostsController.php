@@ -44,7 +44,18 @@ class PostsController extends Controller
     public function getPostBySlug(Request $request, $slug): View
     {
         $post = Post::where('slug', $slug)->firstOrFail();
-        return view('post', ['post' => $post]);
+        if (Auth::user()) {
+            $rate = $post->user_rate()->where('user_id', Auth::user()->id)->first()->pivot->rate ?? 0;
+        } else {
+            $rate = 'noAuth';
+        }
+
+        return view('post', [
+            'post' => $post,
+            'sett' => [
+                'rate' => $rate
+            ]
+        ]);
     }
 
     public function getPostsByUserId(Request $request, $user_id): View
@@ -145,10 +156,20 @@ class PostsController extends Controller
     
     public function ajaxRate(Request $request)
     {
-        
+        $post_id = $request->post_id;
+        $rate = $request->rate;
+
+        $user = User::find(Auth::user()->id);
+        if($rate == 0) {
+            $user->post_rate()->detach($post_id);
+        } else {
+            $user->post_rate()->syncWithoutDetaching([$post_id => ['rate' => $rate]]);
+        }
+
+
         return response()->json([
-            'request' => $request->val,
-            'response' => $request->val * $request->val
+            'request' => $request->post_id,
+            'response' => $request->rate * $request->rate
         ]);
     }
 }

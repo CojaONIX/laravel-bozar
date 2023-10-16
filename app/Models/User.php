@@ -10,6 +10,7 @@ use Laravel\Sanctum\HasApiTokens;
 
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class User extends Authenticatable
 {
@@ -59,4 +60,8 @@ class User extends Authenticatable
         return $this->belongsTo(Role::class);
     }
 
+    public function post_rate(): BelongsToMany
+    {
+        return $this->belongsToMany(Post::class, 'user_post_rate')->withPivot('rate')->withTimestamps();
+    }
 }

@@ -50,8 +50,11 @@ class PagesController extends Controller
     {
         $postId = 147;
         $categoryId = 1;
+        $slug = 'voluptatem-dolor-voluptatem-et-laboriosam-beatae-sequi';
+
         $obj = [
-            'user posts count' => User::select('id', 'name')->withCount('posts')->get(),
+
+            //'user posts count' => User::select('id', 'name')->withCount('posts')->get(),
 
             // 'roles_with_user' => Role::with('users:name,email,role_id')->get(),
             // 'user_with_roles' => User::with('role:id,name')->get(),

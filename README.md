@@ -21,9 +21,10 @@
 
 ### Artisan
 - php artisan make:model Model -crm
+- php artisan make:migration migrationName
 
 - php artisan db:seed
-- php artisan db:seed --class=ClassSeeder
+- php artisan db:seed --class=PostSeeder
 
 - php artisan serve
 

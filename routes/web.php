@@ -53,7 +53,7 @@ Route::middleware('auth')->group(function () {
         Route::delete('/dashboard/post/delete/{id}', 'deletePost')->name('post.soft.delete');
         Route::patch('/dashboard/post/restore/{id}', 'restorePost')->name('post.soft.restore');
 
-        Route::get('/ajax/post/rate', 'ajaxRate')->name('ajax.post.rate');
+        Route::post('/ajax/post/rate', 'ajaxRate')->name('ajax.post.rate');
     });
 
     Route::controller(CategoriesController::class)->group(function () {

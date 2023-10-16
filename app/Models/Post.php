@@ -29,4 +29,9 @@ class Post extends Model
         return $this->belongsToMany(Category::class);
     }
 
+    public function user_rate(): BelongsToMany
+    {
+        return $this->belongsToMany(User::class, 'user_post_rate')->withPivot('rate')->withTimestamps();
+    }
+
 }
