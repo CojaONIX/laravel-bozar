@@ -50,10 +50,15 @@ class PostsController extends Controller
             $rate = 'noAuth';
         }
 
+        $rates = $post->user_rate()->get()->pluck('pivot.rate');
+
         return view('post', [
             'post' => $post,
             'sett' => [
-                'rate' => $rate
+                'rate' => $rate,
+                'rates' => $rates,
+                'rates_avg' => number_format($rates->avg(), 2),
+                'rates_count' => array_count_values($rates->toArray())
             ]
         ]);
     }
@@ -166,10 +171,16 @@ class PostsController extends Controller
             $user->post_rate()->syncWithoutDetaching([$post_id => ['rate' => $rate]]);
         }
 
+        $rates = Post::findOrFail($post_id)->user_rate()->get()->pluck('pivot.rate');
 
         return response()->json([
-            'request' => $request->post_id,
-            'response' => $request->rate * $request->rate
+            'sett' => [
+                'post_id' => $post_id,
+                'rate' => $rate,
+                'rates' => $rates,
+                'rates_avg' => number_format($rates->avg(), 2),
+                'rates_count' => array_count_values($rates->toArray())
+            ]
         ]);
     }
 }

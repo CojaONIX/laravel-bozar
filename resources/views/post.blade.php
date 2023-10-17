@@ -14,9 +14,10 @@
  
 @section('content')
     @auth
-        <div class="d-flex justify-content-between col-lg-3">
+        <div class="d-flex justify-content-between col-lg-6">
             <div>
-                <h2 id="averageRating">0.00</h2>
+                <h2 id="averageRating">{{$sett['rates_avg']}}</h2>
+                <p id="rates">{{$sett['rates']}}</p>
             </div>
             <div>
                 <div class="d-flex justify-content-between">
@@ -28,6 +29,16 @@
                     <span class="rate badge text-bg-light mx-1">5</span>
                 </div>
             </div>
+
+            <ol id="rates_count">
+                @foreach(range(1, 5) as $rate)
+                    @isset($sett['rates_count'][$rate])
+                        <li>{{$sett['rates_count'][$rate]}}</li>
+                    @else
+                        <li>0</li>
+                    @endisset
+                @endforeach
+            </ol>
         </div>
         <pre id="info">{}</pre>
     @endauth
@@ -78,7 +89,12 @@
                 },
                 success: function (data) {
                     $('#info').text(JSON.stringify(data));
-                    $('#averageRating').text(data.response);
+                    $('#averageRating').text(data.sett.rates_avg);
+                    $('#rates').text(data.sett.rates);
+                    $('#rates_count li').text(0);
+                    $.each(data.sett.rates_count, function( key, value ) {
+                        $('#rates_count li').eq(key-1).text(value);
+                    });
                     
 
                 },

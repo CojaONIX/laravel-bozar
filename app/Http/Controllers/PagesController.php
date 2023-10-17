@@ -48,11 +48,13 @@ class PagesController extends Controller
 
     public function showTest(Request $request): View
     {
-        $postId = 147;
+        $postId = 1;
         $categoryId = 1;
         $slug = 'voluptatem-dolor-voluptatem-et-laboriosam-beatae-sequi';
 
         $obj = [
+
+            'post rates' => Post::findOrFail($postId)->user_rate()->get()->pluck('pivot.rate')->sum(),
 
             //'user posts count' => User::select('id', 'name')->withCount('posts')->get(),
 
