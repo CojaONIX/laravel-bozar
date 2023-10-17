@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use App\Models\Post;
 use App\Models\Category;
+use App\Models\User;
 
 class PostSeeder extends Seeder
 {
@@ -20,13 +21,16 @@ class PostSeeder extends Seeder
         $posts = Post::factory()->count(30)->create();
 
         $categories = Category::all()->pluck('id');
-        $posts->each(function ($post) use ($categories) { 
+        $users = User::all()->pluck('id');
+
+        $posts->each(function ($post) use ($categories, $users) { 
             $post->categories()->sync($categories->random(rand(1, 2)));
-            // $post->user_rate()->attach([[
-            //     'user_id' => rand(1, 5),
-            //     'post_id' => rand(1, 30),
-            //     'rate' => rand(1, 5)
-            // ]]);
+
+            $users_rate = [];
+            foreach($users->random(rand(0, count($users))) as $user) {
+                $users_rate[$user] = ['rate' => rand(1,5)];
+            };
+            $post->user_rate()->sync($users_rate);
         });
     }
 }
