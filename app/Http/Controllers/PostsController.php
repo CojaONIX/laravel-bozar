@@ -171,14 +171,19 @@ class PostsController extends Controller
             $user->post_rate()->syncWithoutDetaching([$post_id => ['rate' => $rate]]);
         }
 
-        $rates = Post::findOrFail($post_id)->user_rate()->get()->pluck('pivot.rate');
+        $post = Post::findOrFail($post_id);
+        $rates = $post->user_rate()->get()->pluck('pivot.rate');
+        $rates_avg = number_format($rates->avg(), 2);
+
+        $post->rate = $rates_avg;
+        $post->save();
 
         return response()->json([
             'sett' => [
                 'post_id' => $post_id,
                 'rate' => $rate,
                 'rates' => $rates,
-                'rates_avg' => number_format($rates->avg(), 2),
+                'rates_avg' => $rates_avg,
                 'rates_count' => array_count_values($rates->toArray())
             ]
         ]);

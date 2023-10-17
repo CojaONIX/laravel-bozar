@@ -31,6 +31,12 @@ class PostSeeder extends Seeder
                 $users_rate[$user] = ['rate' => rand(1,5)];
             };
             $post->user_rate()->sync($users_rate);
+
+            if($users_rate) {
+                $post->rate = collect($users_rate)->avg('rate');
+                $post->save();
+            }
+
         });
     }
 }

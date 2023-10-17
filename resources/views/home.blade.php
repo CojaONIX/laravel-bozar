@@ -25,11 +25,18 @@
         @forelse($posts as $post)
         <div class="card-group">
             <div class="card">
+
                 @isset($post->image)
                     <img src="{{asset('storage/' . $post->image)}}" class="card-img-top" alt="...">
                 @else
                     <img src="https://picsum.photos/id/{{$post->id}}/300/100.jpg" class="card-img-top" alt="...">
                 @endisset
+
+                <div class="card-header">
+                    @foreach($post->categories as $category)
+                    <span class="badge rounded-pill text-bg-warning">{{$category->name}}</span>
+                    @endforeach
+                </div>
 
                 <div class="card-body">
                     <p class="card-text">Author: {{$post->user->name}} - PostID: {{$post->id}}<small class="text-muted float-end">{{\Carbon\Carbon::parse($post->created_at)->diffForHumans()}}</small></p>
@@ -37,14 +44,13 @@
                     <p class="card-text">{{ \Illuminate\Support\Str::limit($post->body, 300, $end='...') }}</p>
                 </div>
 
-                <div class="card-footer">
-                        @foreach($post->categories as $category)
-                        <span class="badge rounded-pill text-bg-warning">{{$category->name}}</span>
-                        @endforeach
-                </div>
-
-                <div class="card-footer">
-                    <a href="/post/{{$post->slug}}" class="btn btn-primary float-end">Read more...</a>
+                <div class="card-footer d-flex justify-content-between">
+                    <h4>
+                    @if($post->rate > 0)
+                        {{number_format($post->rate, 2)}}
+                    @endif
+                    </h4>
+                    <a href="/post/{{$post->slug}}" class="btn btn-primary">Read more...</a>
                 </div>
             </div>
         </div>

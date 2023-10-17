@@ -13,52 +13,73 @@
 @endsection
  
 @section('content')
-    @auth
-        <div class="d-flex justify-content-between col-lg-6">
-            <div>
-                <h2 id="averageRating">{{$sett['rates_avg']}}</h2>
-                <p id="rates">{{$sett['rates']}}</p>
-            </div>
-            <div>
-                <div class="d-flex justify-content-between">
-                    <span class="rate badge text-bg-light text-danger mx-1">X</span>
-                    <span class="rate badge text-bg-light mx-1">1</span>
-                    <span class="rate badge text-bg-light mx-1">2</span>
-                    <span class="rate badge text-bg-light mx-1">3</span>
-                    <span class="rate badge text-bg-light mx-1">4</span>
-                    <span class="rate badge text-bg-light mx-1">5</span>
+
+    <div class="row row-cols-1">
+        <div class="card-group">
+            <div class="card">
+
+                @isset($post->image)
+                    <img src="{{asset('storage/' . $post->image)}}" class="card-img-top" alt="...">
+                @else
+                    <img src="https://picsum.photos/id/{{$post->id}}/300/100.jpg" class="card-img-top" alt="...">
+                @endisset
+
+                <div class="card-header">
+                    @foreach($post->categories as $category)
+                    <span class="badge rounded-pill text-bg-warning">{{$category->name}}</span>
+                    @endforeach
+                </div>
+
+                <div class="card-body">
+                    <p class="card-text">Author: {{$post->user->name}} - PostID: {{$post->id}}<small class="text-muted float-end">{{\Carbon\Carbon::parse($post->created_at)->diffForHumans()}}</small></p>
+                    <h3 class="card-title">{{$post->title}}</h3>
+                    <p class="card-text">{{$post->body}}</p>
+                </div>
+
+                <div class="card-footer d-flex justify-content-between">
+                    <h4 id="averageRating">
+                    @if($post->rate > 0)
+                        {{number_format($post->rate, 2)}}
+                    @endif
+                    </h4>
+
+                    @auth
+                    <div>
+                        <div class="d-flex justify-content-between">
+                            <span class="rate badge text-bg-light text-danger mx-1">X</span>
+                            <span class="rate badge text-bg-light mx-1">1</span>
+                            <span class="rate badge text-bg-light mx-1">2</span>
+                            <span class="rate badge text-bg-light mx-1">3</span>
+                            <span class="rate badge text-bg-light mx-1">4</span>
+                            <span class="rate badge text-bg-light mx-1">5</span>
+                        </div>
+                    </div>
+                    @endauth
+                    @guest
+                        <p>Please login to rate</p>    
+                    @endguest
+
+                    <div>
+                        <div id="rates_count" class="d-flex justify-content-between">
+                            @foreach(range(1, 5) as $rate)
+                                @isset($sett['rates_count'][$rate])
+                                    <span class="badge text-bg-light mx-1">{{$rate}}: {{$sett['rates_count'][$rate]}}</span>
+                                @else
+                                    <span class="badge text-bg-light mx-1">{{$rate}}: 0</span>
+                                @endisset
+                            @endforeach
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card-footer d-flex justify-content-end">
+                    <a href="{{ url()->previous() }}" class="btn btn-primary">Back</a>
                 </div>
             </div>
-
-            <ol id="rates_count">
-                @foreach(range(1, 5) as $rate)
-                    @isset($sett['rates_count'][$rate])
-                        <li>{{$sett['rates_count'][$rate]}}</li>
-                    @else
-                        <li>0</li>
-                    @endisset
-                @endforeach
-            </ol>
-        </div>
-        <pre id="info">{}</pre>
-    @endauth
-    @guest
-        <p>Please login to rate</p>    
-    @endguest
-
-    <div class="row mt-5">
-        <div class="col-lg-9">
-            <p class="card-text"><small class="text-muted">{{\Carbon\Carbon::parse($post->created_at)->diffForHumans()}}</small></p>
-            <h1>{{$post->title}}</h1>
-            <p>{{$post->body}}</p>
-        </div>
-
-        <div class="col-lg-3">
-            <img src="https://picsum.photos/id/{{$post->id}}/300/100.jpg" class="col-12 my-2" alt="...">
-            <img src="https://picsum.photos/id/{{$post->id + 1}}/300/100.jpg" class="col-12 my-2" alt="...">
         </div>
     </div>
 
+    <pre id="info"></pre>
 
 @endsection
 
@@ -88,12 +109,11 @@
                     rate: $(this).index()
                 },
                 success: function (data) {
-                    $('#info').text(JSON.stringify(data));
+                    //$('#info').text(JSON.stringify(data));
                     $('#averageRating').text(data.sett.rates_avg);
-                    $('#rates').text(data.sett.rates);
-                    $('#rates_count li').text(0);
+                    $('#rates_count span').text(0);
                     $.each(data.sett.rates_count, function( key, value ) {
-                        $('#rates_count li').eq(key-1).text(value);
+                        $('#rates_count span').eq(key-1).text(value);
                     });
                     
 

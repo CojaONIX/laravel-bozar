@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('slug')->nullable();
             $table->text('body');
             $table->string('image')->nullable();
+            $table->float('rate')->default(0);
             $table->timestamps();
             $table->softDeletes();
         });
