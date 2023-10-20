@@ -73,7 +73,7 @@
                 </div>
 
                 <div class="card-footer d-flex justify-content-end">
-                    <a href="{{ url()->previous() }}" class="btn btn-primary">Back</a>
+                    <a href="{{ url()->previous() }}" class="btn btn-primary">Back to Home</a>
                 </div>
             </div>
         </div>
@@ -89,8 +89,8 @@
         
         rate = {{$sett['rate']}};
         if(rate > 0) {
-            $('.badge').eq(rate).removeClass('text-bg-light');
-            $('.badge').eq(rate).addClass('text-bg-primary');
+            $('.rate').eq(rate).removeClass('text-bg-light');
+            $('.rate').eq(rate).addClass('text-bg-primary');
         }
 
         $('.rate').click(function(){
@@ -115,12 +115,9 @@
                     $.each(data.sett.rates_count, function( key, value ) {
                         $('#rates_count span').eq(key-1).text(value);
                     });
-                    
-
                 },
                 error: function (data) {
                     $('#info').text(JSON.stringify(data, undefined, 2));
-
                 }
             });
 

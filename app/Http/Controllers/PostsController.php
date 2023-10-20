@@ -146,16 +146,24 @@ class PostsController extends Controller
         return redirect()->back()->withSuccess('Post id=' . $id . ' restored');
     }
 
-    public function searchPostsByTerm(Request $request): View
+    public function searchPostsByTerm(Request $request): View | RedirectResponse
     {
-        $request->validate([
-            'term' => 'sometimes|string|max:255|nullable'
-        ]);
-        
         $term = $request->term;
-        $posts = $term ? Post::where('title', 'like', '%' . $term . '%')->with('user:id,name')->orderBy('created_at', 'desc')->paginate(3) : Post::with('user:id,name')->orderBy('created_at', 'desc')->paginate(3);
+        if(is_null($term)) {
+            return redirect()->route('home');
+        }
+
+        $request->validate([
+            'term' => 'string|max:255'
+        ]);
+
+        $posts = Post::where('title', 'like', '%' . $term . '%')->with('user:id,name')->orderBy('created_at', 'desc')->paginate(3)->withQueryString();
         $authors = User::select('id', 'name')->withCount('posts')->get();
-        return view('home', ['posts' => $posts, 'authors' => $authors, 'selected_author' => 'All authors', 'term' => $term]);
+        return view('home', [
+            'posts' => $posts,
+            'authors' => $authors,
+            'selected_author' => 'All authors', 'term' => $term
+        ]);
     }
 
     
