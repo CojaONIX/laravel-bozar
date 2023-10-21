@@ -13,19 +13,29 @@ class CategoriesController extends Controller
 {
     public function showCategories(): View
     {
-        if(Auth::user()->role_id == 9) {
+        if(Auth::user()->role_id > 5) {
             abort(404);
         }
         $categories = Category::all();
-        return view('admin.categories', ['categories' => $categories, 'activee' => '4']);
+        return view('admin.categories', [
+            'categories' => $categories,
+            'activee' => '4',
+            'sett' => [
+                'sidebarActive' => '4'
+            ]
+        ]);
     }
 
     public function showNewCategoryForm(): View
     {
-        if(Auth::user()->role_id == 9) {
+        if(Auth::user()->role_id > 5) {
             abort(404);
         }
-        return view('admin.category-new', ['activee' => '4']);
+        return view('admin.category-new', [
+            'sett' => [
+                'sidebarActive' => '4'
+            ]
+        ]);
     }
 
     public function createNewCategory(Request $request): RedirectResponse

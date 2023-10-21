@@ -11,7 +11,7 @@
 
 <div class="d-flex flex-nowrap">
 
-    <x-sidebar :activee="$activee"/>
+    <x-sidebar :active="$sett['sidebarActive']"/>
 
     <div class="m-3">
         <a href="/dashboard/post/new" class="btn btn-primary my-3">New Post</a>

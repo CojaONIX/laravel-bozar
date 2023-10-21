@@ -28,7 +28,11 @@ class PagesController extends Controller
     {
         $posts = Post::with('user:id,name', 'categories:id,name')->orderBy('created_at', 'desc')->paginate(3);
         $authors = User::select('id', 'name')->withCount('posts')->get();
-        return view('home', ['posts' => $posts, 'authors' => $authors, 'selected_author' => 'All authors']);
+        return view('home', [
+            'posts' => $posts,
+            'authors' => $authors,
+            'selected_author' => 'All authors'
+        ]);
     }
 
     public function showContact(): View

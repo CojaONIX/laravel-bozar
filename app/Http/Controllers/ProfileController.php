@@ -3,23 +3,26 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ProfileUpdateRequest;
-use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
-
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 
 class ProfileController extends Controller
 {
     public function all(Request $request): View
     {
-        if(Auth::user()->role_id == 9) {
+        if(Auth::user()->role_id > 5) {
             abort(404);
         }
         $users = User::all();
-        return view('admin.profiles', ['users' => $users, 'activee' => '3']);
+        return view('admin.profiles', [
+            'users' => $users,
+            'sett' => [
+                'sidebarActive' => '3'
+            ]
+        ]);
     }
 
     /**
@@ -45,7 +48,7 @@ class ProfileController extends Controller
 
         $request->user()->save();
 
-        return Redirect::route('profile.edit')->with('status', 'profile-updated');
+        return redirect()->route('profile.edit')->with('status', 'profile-updated');
     }
 
     /**
@@ -66,6 +69,6 @@ class ProfileController extends Controller
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
-        return Redirect::to('/');
+        return redirect()->route('/');
     }
 }

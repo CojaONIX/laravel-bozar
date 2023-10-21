@@ -17,22 +17,32 @@ class PostsController extends Controller
 {
     public function showDashboard(): View
     {
-        if(Auth::user()->role_id == 9) {
+        if(Auth::user()->role_id > 5) {
             $posts = Post::withoutGlobalScopes()->where('user_id', '=', Auth::id())->with(['user:id,name', 'categories'])->get();
         } else {
             $posts = Post::withoutGlobalScopes()->with(['user:id,name', 'categories'])->get();
         }
-        return view('admin.dashboard', ['posts' => $posts, 'activee' => '1']);
+        return view('admin.dashboard', [
+            'posts' => $posts,
+            'sett' => [
+                'sidebarActive' => '1'
+            ]
+        ]);
     }
 
     public function showPosts(): View
     {
-        if(Auth::user()->role_id == 9) {
+        if(Auth::user()->role_id > 5) {
             $posts = Post::withoutGlobalScopes()->where('user_id', '=', Auth::id())->with(['user:id,name', 'categories'])->get();
         } else {
             $posts = Post::withoutGlobalScopes()->with(['user:id,name', 'categories'])->get();
         }
-        return view('admin.posts', ['posts' => $posts, 'activee' => '2']);
+        return view('admin.posts', [
+            'posts' => $posts,
+            'sett' => [
+                'sidebarActive' => '2'
+            ]
+        ]);
     }
 
     // public function getPostById(Request $request, $id): View
@@ -68,13 +78,22 @@ class PostsController extends Controller
         $posts = Post::where('user_id', $user_id)->with('user:id,name')->orderBy('created_at', 'desc')->paginate(3);
         $authors = User::select('id', 'name')->withCount('posts')->get();
         $selected_author = User::select('name')->findOrFail($user_id);
-        return view('home', ['posts' => $posts, 'authors' => $authors, 'selected_author' => $selected_author->name]);
+        return view('home', [
+            'posts' => $posts,
+            'authors' => $authors,
+            'selected_author' => $selected_author->name
+        ]);
     }
 
     public function showNewPost(): View
     {
         $categories = Category::all();
-        return view('admin.post-new', ['categories' => $categories, 'activee' => '2']);
+        return view('admin.post-new', [
+            'categories' => $categories,
+            'sett' => [
+                'sidebarActive' => '2'
+            ]
+        ]);
     }
 
     public function createNewPost(PostRequest $request): RedirectResponse
@@ -108,7 +127,13 @@ class PostsController extends Controller
             $query->where('post_id', $postId);
         }])->get();
         $post = Post::select('id' , 'title', 'body')->findOrFail($postId);
-        return view('admin.post-edit', ['post' => $post, 'categories' => $categories, 'activee' => '2']);
+        return view('admin.post-edit', [
+            'post' => $post,
+            'categories' => $categories,
+            'sett' => [
+                'sidebarActive' => '2'
+            ]
+        ]);
     }
 
     public function updateEditPost(PostRequest $request, $id): RedirectResponse

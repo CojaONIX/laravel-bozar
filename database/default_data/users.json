@@ -24,6 +24,12 @@
         "role_id": 4
     },
     {
+        "name": "fake",
+        "email": "fake@fake.com",
+        "password": "fakefake",
+        "role_id": 8
+    },
+    {
         "name": "user",
         "email": "user@user.com",
         "password": "useruser",
