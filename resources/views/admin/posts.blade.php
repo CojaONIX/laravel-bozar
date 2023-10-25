@@ -14,8 +14,25 @@
     <x-sidebar :active="$sett['sidebarActive']"/>
 
     <div class="m-3">
-        <a href="/dashboard/post/new" class="btn btn-primary my-3">New Post</a>
+
+        <div class="d-flex justify-content-between align-items-start">
+            <a href="/dashboard/post/new" class="btn btn-primary my-4">New Post</a>
+
+            <div id="ajaxAlert" class="alert alert-success d-none" role="alert">
+                <span id="ajaxMsg"></span>
+            </div>
+
+            @if(session('success'))
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    {{session('success')}}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            @endif   
+        </div>
+
         <h4>Posts</h4>
+        <hr>
+        
         <table id="posts" class="display">
             <thead>
                 <tr>
@@ -44,33 +61,16 @@
                             <img src="{{asset('storage/posts/' . $post->image)}}" height="30">
                         @endif
                     </td>
+
                     <td>{{$post->created_at}}</td>
                     <td>{{$post->updated_at}}</td>
                     @if($post->trashed())
-                        <td>
-                            <form method="post" action="/dashboard/post/restore/{{$post->id}}">
-                                @csrf
-                                @method('patch')
-                                <button class="btn btn-outline-secondary" type="submit">Show</button>
-                            </form>
-                        </td>
-
+                        <td><button class="publish btn btn-outline-secondary" data-post={{$post->id}}>Publish</button></td>
                     @else
-                        <td><a href="/dashboard/post/edit/{{$post->id}}" class="btn btn-outline-primary">Edit</a></td>
+                        <td><button class="publish btn btn-outline-warning" data-post={{$post->id}}>Unpublish</button></td>
                     @endif
 
-                    <td>
-                        <form method="post" action="/dashboard/post/delete/{{$post->id}}">
-                            @csrf
-                            @method('delete')
-                            @if($post->trashed())
-                                <button class="btn btn-outline-danger" type="submit">Delete</button>
-                            @else
-                                <button class="btn btn-outline-warning" type="submit">Hidde</button>
-                            @endif
-                            
-                        </form>
-                    </td>
+                    <td><a href="/dashboard/post/edit/{{$post->id}}" class="btn btn-outline-primary">Edit</a></td>
                 </tr>
                 @endforeach
 
@@ -78,25 +78,43 @@
         </table>
 
         <hr>
-        @if(session('success'))
-            <div class="alert alert-success alert-dismissible fade show my-3" role="alert">
-                {{session('success')}}
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>
-        @endif   
-        <hr>
+<pre id="info"></pre>
     </div>
 </div>
 @endsection
 
 @section('JavaScript')
-    <script>
+<script>
+    $(document).ready(function() {
         $('#posts').DataTable({
             lengthMenu: [
                 [5, 10, 25, 50, -1],
                 [5, 10, 25, 50, 'All']
             ]
         });
-    </script>
+    });
+
+    $('.publish').click(function() {
+        btn = $(this);
+        $.ajax({
+            type: 'POST',
+            url: '/ajax/post/publish',
+            dataType: 'json',
+            data: {
+                _token: "{{ csrf_token() }}",
+                post_id: $(this).data('post')
+            },
+            success: function (data) {
+                btn.toggleClass('btn-outline-secondary btn-outline-warning');
+                btn.text(btn.text() == 'Publish' ? 'Unpublish' : 'Publish');
+                $('#ajaxMsg').text(data.sett.msg);
+                $('#ajaxAlert').removeClass('d-none').fadeIn(1000).delay(2000).fadeOut(1000);
+            },
+            error: function (data) {
+                $('#info').text(JSON.stringify(data, undefined, 2));
+            }
+        });
+    });
+</script>
 @endsection
 

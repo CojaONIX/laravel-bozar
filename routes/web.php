@@ -51,9 +51,9 @@ Route::middleware('auth')->group(function () {
         Route::get('/dashboard/post/edit/{id}', 'showEditPost')->name('post.edit.form');
         Route::put('/dashboard/post/edit/{id}', 'updateEditPost')->name('post.edit');
         Route::delete('/dashboard/post/delete/{id}', 'deletePost')->name('post.soft.delete');
-        Route::patch('/dashboard/post/restore/{id}', 'restorePost')->name('post.soft.restore');
 
         Route::post('/ajax/post/rate', 'ajaxRate')->name('ajax.post.rate');
+        Route::post('/ajax/post/publish', 'ajaxPublish')->name('ajax.post.publish');
     });
 
     Route::controller(CategoriesController::class)->group(function () {

@@ -122,9 +122,9 @@ class PostsController extends Controller
     public function showEditPost(Request $request, $postId): View
     {
         $categories = Category::select('id', 'name')->withExists(['post' => function ($query) use ($postId) {
-            $query->where('post_id', $postId);
+            $query->withoutGlobalScopes()->where('post_id', $postId);
         }])->get();
-        $post = Post::select('id' , 'title', 'body')->findOrFail($postId);
+        $post = Post::withoutGlobalScopes()->select('id' , 'title', 'body')->findOrFail($postId);
         return view('admin.post-edit', [
             'post' => $post,
             'categories' => $categories,
@@ -136,7 +136,7 @@ class PostsController extends Controller
 
     public function updateEditPost(PostRequest $request, $id): RedirectResponse
     {
-        $post = Post::findOrFail($id);
+        $post = Post::withoutGlobalScopes()->findOrFail($id);
  
         $post->title = $request->title;
         $post->body = $request->body;
@@ -159,24 +159,11 @@ class PostsController extends Controller
     public function deletePost(Request $request, $id): RedirectResponse
     {
         $post = Post::withoutGlobalScopes()->findOrFail($id);
-        if($post->trashed()) {
-            Storage::disk('public')->delete('posts/' . $post->image);
-            $post->forceDelete();
-            $msg = 'Post id=' . $id . ' permanently deleted';
-        } else {
-            $post->delete();
-            $msg = 'Post id=' . $id . ' soft deleted';
-        }
+        Storage::disk('public')->delete('posts/' . $post->image);
+        $post->forceDelete();
+        $msg = 'Post id=' . $id . ' permanently deleted';
 
-        return redirect()->back()->withSuccess($msg);
-    }
-
-    public function restorePost(Request $request, $id): RedirectResponse
-    {
-        $post = Post::withoutGlobalScopes()->findOrFail($id);
-        $post->restore();
-
-        return redirect()->back()->withSuccess('Post id=' . $id . ' restored');
+        return redirect()->route('dashboard.posts')->withSuccess($msg);
     }
 
     public function searchPostsByTerm(Request $request): View | RedirectResponse
@@ -226,6 +213,26 @@ class PostsController extends Controller
                 'rates' => $rates,
                 'rates_avg' => $rates_avg,
                 'rates_count' => array_count_values($rates->toArray())
+            ]
+        ]);
+    }
+
+    public function ajaxPublish(Request $request)
+    {
+        $post_id = $request->post_id;
+        $post = Post::withoutGlobalScopes()->findOrFail($post_id);
+
+        if($post->trashed()) {
+            $post->restore();
+            $msg = 'Post id=' . $post_id . ' published';
+        } else {
+            $post->delete();
+            $msg = 'Post id=' . $post_id . ' unpublished';
+        }
+
+        return response()->json([
+            'sett' => [
+                'msg' => $msg
             ]
         ]);
     }

@@ -14,6 +14,12 @@
     <x-sidebar :active="$sett['sidebarActive']"/>
 
     <div class="col-8 m-5">
+        <form method="post" action="/dashboard/post/delete/{{$post->id}}">
+            @csrf
+            @method('delete')
+            <button class="btn btn-outline-danger mb-3" type="submit">Delete</button>
+        </form>
+
         <form method="post" action="/dashboard/post/edit/{{$post->id}}" enctype="multipart/form-data">
             @csrf
             @method('put')
