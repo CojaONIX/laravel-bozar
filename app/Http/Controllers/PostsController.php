@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\PostRequest;
 use Illuminate\Support\Str;
 use Intervention\Image\Facades\Image;
+use Illuminate\Support\Facades\Storage;
 
 class PostsController extends Controller
 {
@@ -105,14 +106,11 @@ class PostsController extends Controller
         $post->user_id = Auth::user()->id;
         $post->slug = Str::slug($post->title, '-');
 
-        $image = $request->image;
+        $image = $request->file('image');
         if($image) {
-            $path = $image->store('public');
-            $path = Str::of($path)->substr(7);
-            $post->image = $path;
-
-            $iImg = Image::make('storage/' . $path);
-            $iImg->fit(300, 100)->save();
+            $path = Storage::disk('public')->putFile('posts', $image);
+            Image::make('storage/' . $path)->fit(300, 100)->save();
+            $post->image = Str::of($path)->substr(6);
         }
 
         $post->save();
@@ -143,6 +141,15 @@ class PostsController extends Controller
         $post->title = $request->title;
         $post->body = $request->body;
         $post->slug = Str::slug($post->title, '-');
+
+        $image = $request->file('image');
+        if($image) {
+            Storage::disk('public')->delete('posts/' . $post->image);
+            $path = Storage::disk('public')->putFile('posts', $image);
+            Image::make('storage/' . $path)->fit(300, 100)->save();
+            $post->image = Str::of($path)->substr(6);
+        }
+        
         $post->save();
         $post->categories()->sync($request->categories ? $request->categories : []);
 
@@ -153,6 +160,7 @@ class PostsController extends Controller
     {
         $post = Post::withoutGlobalScopes()->findOrFail($id);
         if($post->trashed()) {
+            Storage::disk('public')->delete('posts/' . $post->image);
             $post->forceDelete();
             $msg = 'Post id=' . $id . ' permanently deleted';
         } else {

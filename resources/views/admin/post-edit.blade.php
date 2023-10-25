@@ -14,7 +14,7 @@
     <x-sidebar :active="$sett['sidebarActive']"/>
 
     <div class="col-8 m-5">
-        <form method="post" action="/dashboard/post/edit/{{$post->id}}">
+        <form method="post" action="/dashboard/post/edit/{{$post->id}}" enctype="multipart/form-data">
             @csrf
             @method('put')
 
@@ -22,18 +22,25 @@
                 <input type="text" class="form-control" id="title" name="title" placeholder="Title:" value="{{$post->title}}">
                 <label for="title">Title:</label>
             </div>
-            <div class="form-floating">
+            <div class="form-floating mb-3">
                 <textarea class="form-control" placeholder="Body:" id="body" name="body" style="height: 200px">{{$post->body}}</textarea>
                 <label for="body">Body:</label>
             </div>
 
-            <div class="mb-3">
-                <label for="categories">Choose categoeies:</label>
-                <select class="form-select" id="categories" name="categories[]" multiple aria-label="multiple select example">
-                    @foreach($categories as $category)
-                        <option value="{{$category->id}}"{{$category->post_exists ? ' selected' : ''}}>{{$category->name}}</option>
-                    @endforeach
-                </select>
+            <div class="d-flex justify-content-between mb-3">
+                <div>
+                    <label for="categories">Choose categoeies:</label>
+                    <select class="form-select" style="height: 200px;" id="categories" name="categories[]" multiple aria-label="multiple select example">
+                        @foreach($categories as $category)
+                            <option value="{{$category->id}}"{{$category->post_exists ? " selected" : ""}}>{{$category->name}}</option>
+                        @endforeach
+                    </select>
+                </div>
+
+                <div>
+                    <label class="form-label" for="image">Image:</label>
+                    <input type="file" class="form-control mb-3" id="image" name="image" value="{{ old('image') }}">
+                </div>
             </div>
             
             <button class="btn btn-outline-primary col-12 my-3" type="submit">Save</button>

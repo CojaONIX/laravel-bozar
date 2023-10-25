@@ -19,7 +19,7 @@
             <div class="card">
 
                 @isset($post->image)
-                    <img src="{{asset('storage/' . $post->image)}}" class="card-img-top" alt="...">
+                    <img src="{{asset('storage/posts/' . $post->image)}}" class="card-img-top" alt="...">
                 @else
                     <img src="https://picsum.photos/id/{{$post->id}}/300/100.jpg" class="card-img-top" alt="...">
                 @endisset

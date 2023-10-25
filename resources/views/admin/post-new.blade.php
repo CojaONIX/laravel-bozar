@@ -26,20 +26,22 @@
                 <label for="body">Body:</label>
             </div>
 
-            <div class="mb-3">
-                <label class="form-label" for="image">Image:</label>
-                <input type="file" class="form-control" id="image" name="image" value="{{ old('image') }}">
+            <div class="d-flex justify-content-between mb-3">
+                <div>
+                    <label for="categories">Choose categoeies:</label>
+                    <select class="form-select" style="height: 200px;" id="categories" name="categories[]" multiple aria-label="multiple select example">
+                        @foreach($categories as $category)
+                            <option value="{{$category->id}}">{{$category->name}}</option>
+                        @endforeach
+                    </select>
+                </div>
+
+                <div>
+                    <label class="form-label" for="image">Image:</label>
+                    <input type="file" class="form-control mb-3" id="image" name="image" value="{{ old('image') }}">
+                </div>
             </div>
 
-            <div class="mb-3">
-                <label for="categories">Choose categoeies:</label>
-                <select class="form-select" id="categories" name="categories[]" multiple aria-label="multiple select example">
-                    @foreach($categories as $category)
-                        <option value="{{$category->id}}">{{$category->name}}</option>
-                    @endforeach
-                </select>
-            </div>
-            
             <button class="btn btn-outline-primary col-12 my-3" type="submit">Save</button>
         </form>
 
@@ -56,4 +58,3 @@
 </div>
 
 @endsection
-

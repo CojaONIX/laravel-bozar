@@ -36,22 +36,14 @@
                 <tr>
                     <td>{{$post->id}}</td>
                     <td title="{{$post->categories->pluck('name')}}">{{$post->categories->count()}}</td>
-                    
-                    <td>
-                        @if($post->user)
-                            {{$post->user->name}}
-                        @endif
-                    </td>
-
+                    <td>{{$post->user->name}}</td>
                     <td>{{$post->title}}</td>
                     <td>{{ \Illuminate\Support\Str::limit($post->body, 50, $end='...') }}</td>
-
                     <td>
                         @if($post->image)
-                            <img src="{{'storage/' . $post->image}}" height="30">
+                            <img src="{{asset('storage/posts/' . $post->image)}}" height="30">
                         @endif
                     </td>
-
                     <td>{{$post->created_at}}</td>
                     <td>{{$post->updated_at}}</td>
                     @if($post->trashed())
