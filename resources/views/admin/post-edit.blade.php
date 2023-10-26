@@ -13,12 +13,16 @@
 
     <x-sidebar :active="$sett['sidebarActive']"/>
 
-    <div class="col-8 m-5">
-        <form method="post" action="/dashboard/post/delete/{{$post->id}}">
-            @csrf
-            @method('delete')
-            <button class="btn btn-outline-danger mb-3" type="submit">Delete</button>
-        </form>
+    <div class="col-8 mx-5">
+        <div class="d-flex justify-content-between mb-3">
+            <a href="/dashboard/posts" class="btn btn-outline-primary">Cancel</a>
+
+            <form method="post" action="/dashboard/post/delete/{{$post->id}}">
+                @csrf
+                @method('delete')
+                <button class="btn btn-outline-danger" type="submit">Delete</button>
+            </form>
+        </div>
 
         <form method="post" action="/dashboard/post/edit/{{$post->id}}" enctype="multipart/form-data">
             @csrf

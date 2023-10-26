@@ -13,7 +13,9 @@
 
     <x-sidebar :active="$sett['sidebarActive']"/>
 
-    <div class="col-8 m-5">
+    <div class="col-8 mx-5">
+        <a href="/dashboard/posts" class="btn btn-outline-primary mb-5">Cancel</a>
+
         <form method="post" action="/dashboard/post/new" enctype="multipart/form-data">
             @csrf
 

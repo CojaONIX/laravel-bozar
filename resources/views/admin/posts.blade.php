@@ -13,21 +13,15 @@
 
     <x-sidebar :active="$sett['sidebarActive']"/>
 
-    <div class="m-3">
+    <div class="mx-3">
 
         <div class="d-flex justify-content-between align-items-start">
-            <a href="/dashboard/post/new" class="btn btn-primary my-4">New Post</a>
-
-            <div id="ajaxAlert" class="alert alert-success d-none" role="alert">
-                <span id="ajaxMsg"></span>
-            </div>
-
-            @if(session('success'))
-                <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <a href="/dashboard/post/new" class="btn btn-primary mb-5">New Post</a>
+            <div id="successMessage" class="alert alert-success" role="alert">
+                @if(session('success'))
                     {{session('success')}}
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                </div>
-            @endif   
+                @endif   
+            </div>
         </div>
 
         <h4>Posts</h4>
@@ -44,7 +38,7 @@
                     <TH>Image</TH>
                     <th>created_at</th>
                     <th>updated_at</th>
-                    <th></th>
+                    <th>Published</th>
                     <th></th>
                 </tr>
             </thead>
@@ -61,15 +55,9 @@
                             <img src="{{asset('storage/posts/' . $post->image)}}" height="30">
                         @endif
                     </td>
-
                     <td>{{$post->created_at}}</td>
                     <td>{{$post->updated_at}}</td>
-                    @if($post->trashed())
-                        <td><button class="publish btn btn-outline-secondary" data-post={{$post->id}}>Publish</button></td>
-                    @else
-                        <td><button class="publish btn btn-outline-warning" data-post={{$post->id}}>Unpublish</button></td>
-                    @endif
-
+                    <td><div class="form-check form-switch d-flex justify-content-center"><input class="published form-check-input" type="checkbox" role="switch" data-post={{$post->id}}{{$post->trashed() ? "" : " checked"}}></div></td>
                     <td><a href="/dashboard/post/edit/{{$post->id}}" class="btn btn-outline-primary">Edit</a></td>
                 </tr>
                 @endforeach
@@ -94,8 +82,8 @@
         });
     });
 
-    $('.publish').click(function() {
-        btn = $(this);
+    $('#successMessage').delay(2000).fadeOut(500);
+    $('.published').click(function() {
         $.ajax({
             type: 'POST',
             url: '/ajax/post/publish',
@@ -105,10 +93,7 @@
                 post_id: $(this).data('post')
             },
             success: function (data) {
-                btn.toggleClass('btn-outline-secondary btn-outline-warning');
-                btn.text(btn.text() == 'Publish' ? 'Unpublish' : 'Publish');
-                $('#ajaxMsg').text(data.sett.msg);
-                $('#ajaxAlert').removeClass('d-none').fadeIn(1000).delay(2000).fadeOut(1000);
+                $('#successMessage').text(data.sett.msg).fadeIn(100).delay(2000).fadeOut(500);
             },
             error: function (data) {
                 $('#info').text(JSON.stringify(data, undefined, 2));
