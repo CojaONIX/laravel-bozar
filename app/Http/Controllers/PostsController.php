@@ -18,17 +18,7 @@ class PostsController extends Controller
 {
     public function showDashboard(): View
     {
-        if(Auth::user()->role_id > 5) {
-            $posts = Post::withoutGlobalScopes()->where('user_id', '=', Auth::id())->with(['user:id,name', 'categories'])->get();
-        } else {
-            $posts = Post::withoutGlobalScopes()->with(['user:id,name', 'categories'])->get();
-        }
-        return view('admin.dashboard', [
-            'posts' => $posts,
-            'sett' => [
-                'sidebarActive' => '1'
-            ]
-        ]);
+        return view('admin.dashboard');
     }
 
     public function showPosts(): View
@@ -39,10 +29,7 @@ class PostsController extends Controller
             $posts = Post::withoutGlobalScopes()->with(['user:id,name', 'categories'])->get();
         }
         return view('admin.posts', [
-            'posts' => $posts,
-            'sett' => [
-                'sidebarActive' => '2'
-            ]
+            'posts' => $posts
         ]);
     }
 
@@ -90,10 +77,7 @@ class PostsController extends Controller
     {
         $categories = Category::all();
         return view('admin.post-new', [
-            'categories' => $categories,
-            'sett' => [
-                'sidebarActive' => '2'
-            ]
+            'categories' => $categories
         ]);
     }
 
@@ -127,10 +111,7 @@ class PostsController extends Controller
         $post = Post::withoutGlobalScopes()->select('id' , 'title', 'body')->findOrFail($postId);
         return view('admin.post-edit', [
             'post' => $post,
-            'categories' => $categories,
-            'sett' => [
-                'sidebarActive' => '2'
-            ]
+            'categories' => $categories
         ]);
     }
 

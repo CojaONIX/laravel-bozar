@@ -11,10 +11,9 @@ class Sidebar extends Component
     /**
      * Create a new component instance.
      */
-    public function __construct(public string $active)
-    {
-
-    }
+    public function __construct(
+        public int $active
+    ) {}
 
     /**
      * Get the view / contents that represent the component.

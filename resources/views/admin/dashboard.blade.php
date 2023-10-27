@@ -11,7 +11,7 @@
 
 <div class="d-flex flex-nowrap">
 
-    <x-sidebar :active="$sett['sidebarActive']"/>
+    <x-sidebar active=1/>
 
     <div class="jumbotron jumbotron-fluid">
         <div class="container">

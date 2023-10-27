@@ -18,11 +18,7 @@ class CategoriesController extends Controller
         }
         $categories = Category::all();
         return view('admin.categories', [
-            'categories' => $categories,
-            'activee' => '4',
-            'sett' => [
-                'sidebarActive' => '4'
-            ]
+            'categories' => $categories
         ]);
     }
 
@@ -31,11 +27,7 @@ class CategoriesController extends Controller
         if(Auth::user()->role_id > 5) {
             abort(404);
         }
-        return view('admin.category-new', [
-            'sett' => [
-                'sidebarActive' => '4'
-            ]
-        ]);
+        return view('admin.category-new');
     }
 
     public function createNewCategory(Request $request): RedirectResponse

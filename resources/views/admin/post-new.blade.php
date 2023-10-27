@@ -11,7 +11,7 @@
 
 <div class="d-flex flex-nowrap">
 
-    <x-sidebar :active="$sett['sidebarActive']"/>
+    <x-sidebar active=2/>
 
     <div class="col-8 mx-5">
         <a href="/dashboard/posts" class="btn btn-outline-primary mb-5">Cancel</a>

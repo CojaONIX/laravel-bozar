@@ -11,7 +11,7 @@
 
 <div class="d-flex flex-nowrap">
 
-    <x-sidebar :active="$sett['sidebarActive']"/>
+    <x-sidebar active=3/>
 
     <div class="col-8 m-5">
 

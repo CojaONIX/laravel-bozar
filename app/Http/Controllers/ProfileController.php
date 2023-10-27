@@ -18,10 +18,7 @@ class ProfileController extends Controller
         }
         $users = User::all();
         return view('admin.profiles', [
-            'users' => $users,
-            'sett' => [
-                'sidebarActive' => '3'
-            ]
+            'users' => $users
         ]);
     }
 
