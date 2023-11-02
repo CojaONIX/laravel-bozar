@@ -14,6 +14,8 @@ use Illuminate\Support\Str;
 use Intervention\Image\Facades\Image;
 use Illuminate\Support\Facades\Storage;
 
+use Illuminate\Support\Facades\Gate;
+
 class PostsController extends Controller
 {
     public function showDashboard(): View
@@ -42,7 +44,7 @@ class PostsController extends Controller
     public function getPostBySlug(Request $request, $slug): View
     {
         $post = Post::where('slug', $slug)->firstOrFail();
-        if (Auth::user()) {
+        if (Auth::check()) {
             $rate = $post->user_rate()->where('user_id', Auth::user()->id)->first()->pivot->rate ?? 0;
         } else {
             $rate = 'noAuth';
@@ -105,10 +107,15 @@ class PostsController extends Controller
 
     public function showEditPost(Request $request, $postId): View
     {
+        $post = Post::withoutGlobalScopes()->findOrFail($postId);
+        // if (Gate::denies('update-post', $post)) {
+        //     abort(403);
+        // }
+
         $categories = Category::select('id', 'name')->withExists(['post' => function ($query) use ($postId) {
             $query->withoutGlobalScopes()->where('post_id', $postId);
         }])->get();
-        $post = Post::withoutGlobalScopes()->select('id' , 'title', 'body')->findOrFail($postId);
+
         return view('admin.post-edit', [
             'post' => $post,
             'categories' => $categories

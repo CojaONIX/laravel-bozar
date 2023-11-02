@@ -66,7 +66,10 @@
     </nav>
 
     <div class="container">
-        <h3 class="my-3">@yield('title')</h3>
+        <div class="d-flex justify-content-between">
+            <h3 class="my-3">@yield('title')</h3>
+            <h6 class="mt-4">@datetime</h6>
+        </div>
         <hr>
         @yield('content')
 

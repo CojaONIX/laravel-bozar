@@ -57,7 +57,7 @@
                     </td>
                     <td>{{$post->created_at}}</td>
                     <td>{{$post->updated_at}}</td>
-                    <td><div class="form-check form-switch d-flex justify-content-center"><input class="published form-check-input" type="checkbox" role="switch" data-post={{$post->id}}{{$post->trashed() ? "" : " checked"}}></div></td>
+                    <td><div class="form-check form-switch d-flex justify-content-center"><input class="published form-check-input" type="checkbox" role="switch" data-post={{$post->id}} @checked(!$post->trashed())></div></td>
                     <td><a href="/dashboard/post/edit/{{$post->id}}" class="btn btn-outline-primary">Edit</a></td>
                 </tr>
                 @endforeach
