@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('user_post_rate', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')
+            $table->foreignUuid('user_id')
                     ->constrained()
                     ->onUpdate('cascade')
                     ->onDelete('cascade');

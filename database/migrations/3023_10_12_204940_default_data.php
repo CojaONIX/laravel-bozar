@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Schema;
 use App\Models\Role;
 use App\Models\User;
 use App\Models\Category;
+use Illuminate\Support\Str;
 
 return new class extends Migration
 {
@@ -21,9 +22,10 @@ return new class extends Migration
         $users = json_decode(file_get_contents('database\default_data\users.json'), true);
         $now = now()->toDateTimeString();
         foreach ($users as &$user) {
-            $user['created_at']  = $now;
-            $user['updated_at']  = $now;
-            $user['password']  = Hash::make($user['password']);
+            $user['id'] = Str::orderedUuid();
+            $user['created_at'] = $now;
+            $user['updated_at'] = $now;
+            $user['password'] = Hash::make($user['password']);
         }
         User::insert($users);
 

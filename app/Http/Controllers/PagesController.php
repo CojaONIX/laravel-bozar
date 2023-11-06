@@ -52,17 +52,19 @@ class PagesController extends Controller
 
     public function showTest(Request $request): View
     {
+        $userId = '9a8c4531-1c0d-4784-a650-fb5f2739522c';
         $postId = 1;
         $categoryId = 1;
         $slug = 'voluptatem-dolor-voluptatem-et-laboriosam-beatae-sequi';
 
         $obj = [
 
-            'post rates' => Post::findOrFail($postId)->user_rate()->get()->pluck('pivot.rate')->sum(),
+            //'post rates' => Post::findOrFail($postId)->user_rate()->get()->pluck('pivot.rate')->sum(),
 
+            //'user' => User::find($userId)->posts()->get(),
             //'user posts count' => User::select('id', 'name')->withCount('posts')->get(),
 
-            // 'roles_with_user' => Role::with('users:name,email,role_id')->get(),
+            'roles_with_user' => Role::with('users:name,email,role_id')->get(),
             // 'user_with_roles' => User::with('role:id,name')->get(),
 
             // 'postsByCategory2' => Category::where('id', $categoryId)->with('post')->get(),

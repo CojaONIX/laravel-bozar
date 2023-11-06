@@ -157,7 +157,7 @@ class PostsController extends Controller
     public function searchPostsByTerm(Request $request): View | RedirectResponse
     {
         $term = $request->term;
-        if(is_null($term)) {
+        if(!$term) {
             return redirect()->route('home');
         }
 
