@@ -20,17 +20,15 @@ return new class extends Migration
         Role::insert($roles);
 
         $users = json_decode(file_get_contents('database\default_data\users.json'), true);
-        $now = now()->toDateTimeString();
-        foreach ($users as &$user) {
-            $user['id'] = Str::orderedUuid();
-            $user['created_at'] = $now;
-            $user['updated_at'] = $now;
-            $user['password'] = Hash::make($user['password']);
+        foreach ($users as $user) {
+            User::create($user);
         }
-        User::insert($users);
 
         $categories = json_decode(file_get_contents('database\default_data\categories.json'), true);
-        Category::insert($categories);
+        foreach ($categories as $cat) {
+            Category::create($cat);
+        }
+
     }
 
     /**

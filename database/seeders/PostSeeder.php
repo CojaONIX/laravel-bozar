@@ -24,7 +24,7 @@ class PostSeeder extends Seeder
         $users = User::all()->pluck('id');
 
         $posts->each(function ($post) use ($categories, $users) { 
-            $post->categories()->sync($categories->random(rand(1, 2)));
+            $post->categories()->sync($categories->random(rand(1, 3)));
 
             $users_rate = [];
             foreach($users->random(rand(0, count($users))) as $user) {

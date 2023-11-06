@@ -7,11 +7,16 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
 
 class Post extends Model
 {
     use HasFactory;
     use SoftDeletes;
+    use HasUuids;
+
+    public $incrementing = false;
+    protected $keyType = 'string';
 
     /**
      * Get the user that owns the post.
