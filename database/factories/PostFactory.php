@@ -26,6 +26,7 @@ class PostFactory extends Factory
             'title' => $title,
             'body' => fake()->paragraphs(fake()->numberBetween(3, 5), true),
             'slug' => $slug,
+            'image' => rand(1, 99),
             'created_at' => fake()->dateTimeBetween('-1 year', '-1 day')
         ];
     }

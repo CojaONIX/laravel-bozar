@@ -18,11 +18,11 @@
         <div class="card-group">
             <div class="card">
 
-                @isset($post->image)
+                @if(Str::length($post->image) > 3)
                     <img src="{{asset('storage/posts/' . $post->image)}}" class="card-img-top" alt="...">
                 @else
-                    <img src="https://picsum.photos/id/{{$post->id}}/300/100.jpg" class="card-img-top" alt="...">
-                @endisset
+                    <img src="https://picsum.photos/id/{{$post->image}}/300/100.jpg" class="card-img-top" alt="...">
+                @endif
 
                 <div class="card-header">
                     @foreach($post->categories as $category)
@@ -31,7 +31,7 @@
                 </div>
 
                 <div class="card-body">
-                    <p class="card-text">Author: {{$post->user->name}} - PostID: {{$post->id}}<small class="text-muted float-end">{{\Carbon\Carbon::parse($post->created_at)->diffForHumans()}}</small></p>
+                    <p class="card-text">{{$post->user->name}}<small class="text-muted float-end">{{\Carbon\Carbon::parse($post->created_at)->diffForHumans()}}</small></p>
                     <h3 class="card-title">{{$post->title}}</h3>
                     <p class="card-text">{{$post->body}}</p>
                 </div>

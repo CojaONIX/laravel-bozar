@@ -92,6 +92,7 @@ class PostsController extends Controller
         $post->user_id = Auth::user()->id;
         $post->slug = Str::slug($post->title, '-');
 
+        $post->image = '250';
         $image = $request->file('image');
         if($image) {
             $path = Storage::disk('public')->putFile('posts', $image);

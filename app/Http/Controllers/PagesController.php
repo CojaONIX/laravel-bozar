@@ -58,13 +58,13 @@ class PagesController extends Controller
         $slug = 'voluptatem-dolor-voluptatem-et-laboriosam-beatae-sequi';
 
         $obj = [
-
+            'posts' => Post::with('user:id,name', 'categories:id,name')->orderBy('created_at', 'desc')->paginate(3),
             //'post rates' => Post::findOrFail($postId)->user_rate()->get()->pluck('pivot.rate')->sum(),
 
             //'user' => User::find($userId)->posts()->get(),
             //'user posts count' => User::select('id', 'name')->withCount('posts')->get(),
 
-            'roles_with_user' => Role::with('users:name,email,role_id')->get(),
+            //'roles_with_user' => Role::with('users:name,email,role_id')->get(),
             // 'user_with_roles' => User::with('role:id,name')->get(),
 
             // 'postsByCategory2' => Category::where('id', $categoryId)->with('post')->get(),

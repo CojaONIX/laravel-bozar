@@ -51,7 +51,7 @@
                     <td>{{$post->title}}</td>
                     <td>{{ \Illuminate\Support\Str::limit($post->body, 50, $end='...') }}</td>
                     <td>
-                        @if($post->image)
+                        @if(Str::length($post->image) > 3)
                             <img src="{{asset('storage/posts/' . $post->image)}}" height="30">
                         @endif
                     </td>
