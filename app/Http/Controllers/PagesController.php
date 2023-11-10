@@ -17,6 +17,8 @@ use App\Http\Requests\SendContactFormMessageRequest;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\ContactForm;
 
+use Throwable;
+
 class PagesController extends Controller
 {
     public function showOldView(Request $request, $old_view): View
@@ -50,40 +52,116 @@ class PagesController extends Controller
         return redirect()->route('home')->withSuccess('Your message was send successfully. Thank you.');
     }
 
-    public function showTest(Request $request): View
+    public function showTest(Request $request)
     {
-        $userId = '9a8c4531-1c0d-4784-a650-fb5f2739522c';
-        $postId = 1;
-        $categoryId = 1;
-        $slug = 'voluptatem-dolor-voluptatem-et-laboriosam-beatae-sequi';
+        return view('test');
+    }
 
-        $obj = [
-            'posts' => Post::with('user:id,name', 'categories:id,name')->orderBy('created_at', 'desc')->paginate(3),
-            //'post rates' => Post::findOrFail($postId)->user_rate()->get()->pluck('pivot.rate')->sum(),
+    public function ajaxGetTestData(Request $request)
+    {
+        $item = $request->item;
+        switch($request->action) {
 
-            //'user' => User::find($userId)->posts()->get(),
-            //'user posts count' => User::select('id', 'name')->withCount('posts')->get(),
+            case('users'):
+                $obj = User::all();
+                break;
+            case('users ids'):
+                $obj = User::select('id')->get();
+                break;
+            case('user posts'):
+                $obj = User::find($item)->posts()->get();
+                break;
+            case('user posts count'):
+                $obj = User::select('id', 'name')->withCount('posts')->get();
+                break;
+            case('user by id'):
+                try {
+                    $obj = User::findOrFail($item);
+                } catch (Throwable $e) { 
+                    $obj = [
+                        'code' => 404,
+                        'message' => 'User Not found'
+                    ];
+                }
+                break;
+ 
+            case('posts'):
+                $obj = Post::all();
+                break;
+            case('post by id'):
+                $obj = Post::findOrFail($item);
+                break;
+            case('post by id with user'):
+                $obj = Post::with('user')->findOrFail($item);
+                break;
+            case('post by slug'):
+                $obj = Post::where('slug', $item)->firstOrFail();
+                break;
+            case('post rates'):
+                $obj = Post::findOrFail($item)->user_rate()->get()->pluck('pivot.rate')->sum();
+                break;
 
-            //'roles_with_user' => Role::with('users:name,email,role_id')->get(),
-            // 'user_with_roles' => User::with('role:id,name')->get(),
+            case('posts_categories'):
+                $obj = Post::with('user:id,name', 'categories:id,name')->orderBy('created_at', 'desc')->paginate(3);
+                break;
 
-            // 'postsByCategory2' => Category::where('id', $categoryId)->with('post')->get(),
-            // 'postsByCategory1' => Post::whereHas('categories', function (Builder $query) use ($categoryId) {
-            //     $query->where('category_id', '=', $categoryId);
-            // })->get(),
+            case('logged user'):
+                $obj = Auth::user();
+                break;
 
-            // 'post_exists' => Category::select('id', 'name')->withExists(['post' => function ($query) use ($postId) {
-            //     $query->where('post_id', $postId);
-            // }])->get(),
+            case('edit post multiselect'):
+                $obj = ['post' => Post::with('categories:id,name')->findOrFail($item), 'categories' => Category::all(['id', 'name'])];
+                break;
 
-            // 'edit post multiselect' => ['post' => Post::with('categories:id,name')->findOrFail(145), 'categories' => Category::all(['id', 'name'])],
-            // 'posts_categories' => Post::with('user:id,name', 'categories:id,name')->orderBy('created_at', 'desc')->paginate(3),
-            // 'Loged user' => Auth::user(),
-            // 'all with selected cols' => Post::select('id', 'title', 'body', 'user_id')->with('user:id,email,name')->get(),
-            // 'all' => Post::with('user')->get(),
-            // 'select' => Post::select('id' , 'title', 'body')->findOrFail($postId)
-        ];
-       
-        return view('test', ['object' => $obj]);
+            case('categories'):
+                $obj = Category::all();
+                break;
+            case('postsByCategory1'):
+                $obj = Post::whereHas('categories', function (Builder $query) use ($item) {
+                            $query->where('category_id', '=', $item);
+                        })->get();
+                break;
+            case('postsByCategory2'):
+                $obj = Category::where('id', $item)->with('post')->get();
+                break;
+
+            case('post_exists'):
+                $obj = Category::select('id', 'name')->withExists(['post' => function ($query) use ($item) {
+                            $query->where('post_id', $item);
+                        }])->get();
+                break;
+
+            case('roles_with_user'):
+                $obj = Role::with('users:name,email,role_id')->get();
+                break;
+            case('users_with_role'):
+                $obj = User::with('role:id,name')->get();
+                break;
+            default:
+                $obj = [
+                    'users',
+                    'users ids',
+                    'user posts',
+                    'user posts count',
+                    'user by id',
+                    'posts',
+                    'post by id',
+                    'post by id with user',
+                    'post by slug',
+                    'post rates',
+                    'posts_categories',
+                    'logged user',
+                    'edit post multiselect',
+                    'categories',
+                    'postsByCategory1',
+                    'postsByCategory2',
+                    'post_exists',
+                    'roles_with_user',
+                    'users_with_role'
+                ];
+        }
+
+        return $obj;
+
     }
 }

@@ -21,6 +21,7 @@ use App\Http\Controllers\CategoriesController;
 Route::controller(PagesController::class)->group(function () {
     Route::get('/', 'showHome')->name('home');
     Route::get('/test', 'showTest');
+    Route::post('/test', 'ajaxGetTestData');
     Route::get('/old/{old_view}', 'showOldView');
 
     Route::get('/contact', 'showContact');
