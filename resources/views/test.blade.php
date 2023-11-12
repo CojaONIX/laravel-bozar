@@ -18,44 +18,26 @@
  
 @section('content')
 
-<div class="d-flex flex-nowrap">
+<div class="d-flex justify-content-between flex-nowrap">
     <ul class="nav nav-pills flex-column col-2" id="menu">
+        @foreach ($buttons as $btn)
+        <li class="query nav-link">{{$btn}}</li>
+        @endforeach
     </ul>
-    <div class="col-10">
+    <div class="col-9">
         <input type="text" class="form-control col-12 mb-3" id="item">
         <pre id="data"></pre>
     </div>
 </div>
 
-
-
-
 @endsection
+
 
 @section('JavaScript')
 <script>
     $(document).ready(function() {
-        $.ajax({
-            type: 'POST',
-            url: '/test',
-            dataType: 'json',
-            data: {
-                _token: "{{ csrf_token() }}",
-                action: "",
-                item: ""
-            },
-            success: function (data) {
-                //$('#data').text(JSON.stringify(data));
-                $.each(data, function( key, value ) {
-                    $('#menu').append('<li class="query nav-link">' + value + '</li>');
-                });
-            },
-            error: function (data) {
-                $('#data').text(JSON.stringify(data, undefined, 4));
-            }
-        });
 
-        $(document).on('click', '.query', function(){
+        $('.query').click(function(){
             $('.query').removeClass('active');
             $(this).addClass('active');
             query = $(this).text();
@@ -75,7 +57,6 @@
                     $('#data').text(JSON.stringify(data, undefined, 4));
                 }
             });
-
         });
 
     });

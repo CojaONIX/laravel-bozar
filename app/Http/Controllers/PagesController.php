@@ -54,7 +54,27 @@ class PagesController extends Controller
 
     public function showTest(Request $request)
     {
-        return view('test');
+        return view('test', ['buttons' => [
+                                    'users',
+                                    'users ids',
+                                    'user posts',
+                                    'users posts count',
+                                    'user by id',
+                                    'posts',
+                                    'post by id',
+                                    'post by id with user',
+                                    'post by slug',
+                                    'post rates',
+                                    'posts_categories',
+                                    'logged user',
+                                    'edit post multiselect',
+                                    'categories',
+                                    'postsByCategory1',
+                                    'postsByCategory2',
+                                    'post_exists',
+                                    'roles_with_user',
+                                    'users_with_role'
+                                ]]);
     }
 
     public function ajaxGetTestData(Request $request)
@@ -63,105 +83,78 @@ class PagesController extends Controller
         switch($request->action) {
 
             case('users'):
-                $obj = User::all();
-                break;
+                return User::all();
+
             case('users ids'):
-                $obj = User::select('id')->get();
-                break;
+                return User::select('id')->get();
+                
             case('user posts'):
-                $obj = User::find($item)->posts()->get();
-                break;
-            case('user posts count'):
-                $obj = User::select('id', 'name')->withCount('posts')->get();
-                break;
+                return User::find($item)->posts()->get();
+                
+            case('users posts count'):
+                return User::select('id', 'name')->withCount('posts')->get();
+                
             case('user by id'):
                 try {
-                    $obj = User::findOrFail($item);
+                    return User::findOrFail($item);
                 } catch (Throwable $e) { 
-                    $obj = [
+                    return [
                         'code' => 404,
                         'message' => 'User Not found'
                     ];
                 }
-                break;
  
             case('posts'):
-                $obj = Post::all();
-                break;
+                return Post::all();
+                
             case('post by id'):
-                $obj = Post::findOrFail($item);
-                break;
+                return Post::findOrFail($item);
+                
             case('post by id with user'):
-                $obj = Post::with('user')->findOrFail($item);
-                break;
+                return Post::with('user')->findOrFail($item);
+                
             case('post by slug'):
-                $obj = Post::where('slug', $item)->firstOrFail();
-                break;
+                return Post::where('slug', $item)->firstOrFail();
+                
             case('post rates'):
-                $obj = Post::findOrFail($item)->user_rate()->get()->pluck('pivot.rate')->sum();
-                break;
+                return Post::findOrFail($item)->user_rate()->get()->pluck('pivot.rate')->sum();
 
             case('posts_categories'):
-                $obj = Post::with('user:id,name', 'categories:id,name')->orderBy('created_at', 'desc')->paginate(3);
-                break;
+                return Post::with('user:id,name', 'categories:id,name')->orderBy('created_at', 'desc')->paginate(3);
 
             case('logged user'):
-                $obj = Auth::user();
-                break;
-
+                return Auth::user();
+                
             case('edit post multiselect'):
-                $obj = ['post' => Post::with('categories:id,name')->findOrFail($item), 'categories' => Category::all(['id', 'name'])];
-                break;
-
+                return ['post' => Post::with('categories:id,name')->findOrFail($item), 'categories' => Category::all(['id', 'name'])];
+                
             case('categories'):
-                $obj = Category::all();
-                break;
+                return Category::all();
+                
             case('postsByCategory1'):
-                $obj = Post::whereHas('categories', function (Builder $query) use ($item) {
+                return Post::whereHas('categories', function (Builder $query) use ($item) {
                             $query->where('category_id', '=', $item);
                         })->get();
-                break;
+                
             case('postsByCategory2'):
-                $obj = Category::where('id', $item)->with('post')->get();
-                break;
+                return Category::where('id', $item)->with('post')->get();
 
             case('post_exists'):
-                $obj = Category::select('id', 'name')->withExists(['post' => function ($query) use ($item) {
+                return Category::select('id', 'name')->withExists(['post' => function ($query) use ($item) {
                             $query->where('post_id', $item);
                         }])->get();
-                break;
 
             case('roles_with_user'):
-                $obj = Role::with('users:name,email,role_id')->get();
-                break;
+                return Role::with('users:name,email,role_id')->get();
+                
             case('users_with_role'):
-                $obj = User::with('role:id,name')->get();
-                break;
+                return User::with('role:id,name')->get();
+                
             default:
-                $obj = [
-                    'users',
-                    'users ids',
-                    'user posts',
-                    'user posts count',
-                    'user by id',
-                    'posts',
-                    'post by id',
-                    'post by id with user',
-                    'post by slug',
-                    'post rates',
-                    'posts_categories',
-                    'logged user',
-                    'edit post multiselect',
-                    'categories',
-                    'postsByCategory1',
-                    'postsByCategory2',
-                    'post_exists',
-                    'roles_with_user',
-                    'users_with_role'
+                return [
+                    'msg' => 'Bad action'
                 ];
         }
-
-        return $obj;
 
     }
 }
