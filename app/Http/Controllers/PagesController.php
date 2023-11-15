@@ -15,6 +15,7 @@ use Illuminate\Database\Eloquent\Builder;
 // Mail
 use App\Http\Requests\SendContactFormMessageRequest;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\DB;
 use App\Mail\ContactForm;
 
 use Throwable;
@@ -56,7 +57,6 @@ class PagesController extends Controller
     {
         return view('test', ['buttons' => [
                                     'users',
-                                    'users ids',
                                     'user posts',
                                     'users posts count',
                                     'user by id',
@@ -71,6 +71,8 @@ class PagesController extends Controller
                                     'categories',
                                     'postsByCategory1',
                                     'postsByCategory2',
+                                    'transaction1',
+                                    'transaction2',
                                     'post_exists',
                                     'roles_with_user',
                                     'users_with_role'
@@ -84,12 +86,17 @@ class PagesController extends Controller
 
             case('users'):
                 return User::all();
-
-            case('users ids'):
-                return User::select('id')->get();
                 
             case('user posts'):
-                return User::find($item)->posts()->get();
+                try {
+                    return User::findOrFail($item)->posts()->get();
+                } catch (Throwable $e) { 
+                    return [
+                        'code' => 404,
+                        'message' => 'User Not found - id=' . $item,
+                        'Try with' => User::select('id')->get()->pluck('id')
+                    ];
+                }
                 
             case('users posts count'):
                 return User::select('id', 'name')->withCount('posts')->get();
@@ -100,7 +107,8 @@ class PagesController extends Controller
                 } catch (Throwable $e) { 
                     return [
                         'code' => 404,
-                        'message' => 'User Not found'
+                        'message' => 'User Not found - id=' . $item,
+                        'Try with' => User::all()->pluck('id')
                     ];
                 }
  
@@ -108,13 +116,29 @@ class PagesController extends Controller
                 return Post::all();
                 
             case('post by id'):
-                return Post::findOrFail($item);
+                try {
+                    return Post::findOrFail($item);
+                } catch (Throwable $e) { 
+                    return [
+                        'code' => 404,
+                        'message' => 'Post Not found - id=' . $item,
+                        'Try with' => Post::select('id')->get()->pluck('id')
+                    ];
+                }
                 
             case('post by id with user'):
                 return Post::with('user')->findOrFail($item);
                 
             case('post by slug'):
-                return Post::where('slug', $item)->firstOrFail();
+                try {
+                    return Post::where('slug', $item)->firstOrFail();
+                } catch (Throwable $e) { 
+                    return [
+                        'code' => 404,
+                        'message' => 'Post slug Not found - slug=' . $item,
+                        'Try with' => Post::select('slug')->get()->pluck('slug')
+                    ];
+                }
                 
             case('post rates'):
                 return Post::findOrFail($item)->user_rate()->get()->pluck('pivot.rate')->sum();
@@ -138,6 +162,42 @@ class PagesController extends Controller
                 
             case('postsByCategory2'):
                 return Category::where('id', $item)->with('post')->get();
+
+            case('transaction1'):
+                DB::beginTransaction();
+                try {
+                    $post = Post::findOrFail($item);
+
+                    $old_image = $post->image;
+                    $post->image = 13;
+                    //$postD = Post::findOrFail(1);
+                    DB::commit();
+                    return $post;
+                } catch (Throwable $e) {
+                    DB::rollback();
+                    return [
+                        'code' => 404,
+                        'message' => $e
+                    ];
+                }
+    
+            case('transaction2'):
+                try {
+                    DB::transaction(function () use ($item) {
+                        $post = Post::findOrFail($item);
+    
+                        $old_image = $post->image;
+                        $post->image = 3;
+                        //$postD = Post::findOrFail(1);
+                    });
+
+                } catch (Throwable $e) {
+                    return [
+                        'code' => 404,
+                        'message' => $e
+                    ];
+                }
+                break;
 
             case('post_exists'):
                 return Category::select('id', 'name')->withExists(['post' => function ($query) use ($item) {
