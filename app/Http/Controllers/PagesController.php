@@ -166,18 +166,20 @@ class PagesController extends Controller
             case('transaction1'):
                 DB::beginTransaction();
                 try {
+                    
                     $post = Post::findOrFail($item);
 
                     $old_image = $post->image;
-                    $post->image = 13;
-                    //$postD = Post::findOrFail(1);
+                    $post->image = 3;
+                    $post->save();
+                    $postD = Post::findOrFail(1);
                     DB::commit();
                     return $post;
                 } catch (Throwable $e) {
                     DB::rollback();
                     return [
                         'code' => 404,
-                        'message' => $e
+                        'message' => $e->getMessage()
                     ];
                 }
     
@@ -187,14 +189,15 @@ class PagesController extends Controller
                         $post = Post::findOrFail($item);
     
                         $old_image = $post->image;
-                        $post->image = 3;
-                        //$postD = Post::findOrFail(1);
+                        $post->image = 13;
+                        $post->save();
+                        $postD = Post::findOrFail(1);
                     });
 
                 } catch (Throwable $e) {
                     return [
                         'code' => 404,
-                        'message' => $e
+                        'message' => $e->getMessage()
                     ];
                 }
                 break;
