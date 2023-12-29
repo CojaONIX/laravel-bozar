@@ -104,8 +104,8 @@
                 url: '/ajax/post/rate',
                 dataType: 'json',
                 data: {
-                    _token: "{{ csrf_token() }}",
-                    post_id: {{$post->id}},
+                    _token: '{{ csrf_token() }}',
+                    post_id: '{{$post->id}}',
                     rate: $(this).index()
                 },
                 success: function (data) {
