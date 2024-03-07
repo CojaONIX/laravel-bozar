@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PagesController;
 use App\Http\Controllers\PostsController;
 use App\Http\Controllers\CategoriesController;
+use Illuminate\Support\Facades\URL;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,6 +18,8 @@ use App\Http\Controllers\CategoriesController;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+
+URL::forceScheme('https');
 
 Route::prefix('/laravel-bozar/public')->group(function () {
     Route::controller(PagesController::class)->group(function () {
