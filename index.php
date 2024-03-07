@@ -9,6 +9,6 @@
 </head>
 <body>
     <a href="/laravel-bozar/public">BoZar</a>
-    <a href="/laravel-loto/public">Loto</a>
+    <a href="/example-app/public">Loto</a>
 </body>
 </html>
