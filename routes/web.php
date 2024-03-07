@@ -31,7 +31,7 @@ Route::prefix('/laravel-bozar/public')->group(function () {
 
     Route::controller(PostsController::class)->group(function () {
         //Route::get('/post/{id}', 'getPostById');
-        Route::get('/post/{slug}', 'getPostBySlug')->name('post.slug');
+        Route::get('/post/{slug}', 'getPostBySlug')->name('post.page');
         Route::get('/posts/{user_id}', 'getPostsByUserId');
         Route::get('/search', 'searchPostsByTerm');
     });

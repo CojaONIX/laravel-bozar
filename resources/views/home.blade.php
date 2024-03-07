@@ -1,7 +1,7 @@
 @extends('layouts.blog')
 
 @section('title', 'Home')
- 
+
 @section('content')
 
     <div class="row justify-content-start">
@@ -20,7 +20,7 @@
         </div>
         @endisset
     </div>
-    
+
     <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
         @forelse($posts as $post)
         <div class="card-group">
@@ -50,7 +50,7 @@
                         {{number_format($post->rate, 2)}}
                     @endif
                     </h4>
-                    <a href="/post/{{$post->slug}}" class="btn btn-primary">Read more...</a>
+                    <a href="{{ route('post.page', ['slug' => $post->slug]) }}" class="btn btn-primary">Read more...</a>
                 </div>
             </div>
         </div>
@@ -68,7 +68,7 @@
             {{session('success')}}
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
-    @endif   
+    @endif
     <hr>
-    
+
 @endsection
