@@ -33,7 +33,7 @@ Route::prefix('/laravel-bozar/public')->group(function () {
         //Route::get('/post/{id}', 'getPostById');
         Route::get('/post/{slug}', 'getPostBySlug')->name('post.page');
         Route::get('/posts/{user_id}', 'getPostsByUserId');
-        Route::get('/search', 'searchPostsByTerm');
+        Route::get('/search', 'searchPostsByTerm')->name('search');
     });
 
     Route::middleware('auth')->group(function () {

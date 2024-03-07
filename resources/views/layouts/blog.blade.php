@@ -14,7 +14,7 @@
 
     <nav class="navbar navbar-expand-lg bg-body-tertiary">
         <div class="container">
-            <a class="navbar-brand" href="/">BoZar</a>
+            <a class="navbar-brand" href="/">ONIX</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
@@ -37,7 +37,7 @@
                     <li class="nav-item"><a class="nav-link" href="{{ route('contact.page') }}">Contact</a></li>
                 </ul>
 
-                <form method="get" action="/search" class="d-flex mx-5" role="search">
+                <form method="get" action="{{ route('search') }}" class="d-flex mx-5" role="search">
                     <input class="form-control me-2" type="search" id="term" name="term" value="{{isset($term) ? $term : ''}}" placeholder="Search" aria-label="Search">
                     <button class="btn btn-outline-success" type="submit">Search</button>
                 </form>
@@ -46,11 +46,11 @@
                     <div class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Hello, {{ Auth::user()->name}}</a>
                         <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="/dashboard">Dashboard</a></li>
-                            <li><a class="dropdown-item" href="/profile">Profile</a></li>
+                            <li><a class="dropdown-item" href="{{ route('dashboard') }}">Dashboard</a></li>
+                            <li><a class="dropdown-item" href="{{ route('profile.edit') }}">Profile</a></li>
                             <li><hr class="dropdown-divider"></li>
                             <li>
-                                <form method="post" action="/logout" class="dropdown-item">
+                                <form method="post" action="{{ route('logout') }}" class="dropdown-item">
                                     @csrf
                                     <button class="btn btn-outline-danger col-12" type="submit">Logout</button>
                                 </form>
@@ -58,7 +58,7 @@
                         </ul>
                     </div>
                 @else
-                    <a href="/login" class="btn btn-outline-primary mx-3">Login</a>
+                    <a href="{{ route('login') }}" class="btn btn-outline-primary mx-3">Login</a>
                 @endauth
 
           </div>
