@@ -15,7 +15,7 @@
         }
     </style>
 @endsection
- 
+
 @section('content')
 
 <div class="d-flex justify-content-between flex-nowrap">
@@ -43,7 +43,7 @@
             query = $(this).text();
             $.ajax({
                 type: 'POST',
-                url: '/test',
+                url: {{ route('test.get.data') }},
                 dataType: 'json',
                 data: {
                     _token: "{{ csrf_token() }}",

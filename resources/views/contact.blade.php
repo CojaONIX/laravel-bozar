@@ -1,10 +1,10 @@
 @extends('layouts.blog')
 
 @section('title', 'Contact Form')
- 
+
 @section('content')
 
-    <form method="post" action="/contact">
+    <form method="post" action="{{ route('contact.send') }}">
         @csrf
 
         <div class="form-floating mb-3">
@@ -19,7 +19,7 @@
             <textarea class="form-control" placeholder="Message:" id="message" name="message" style="height: 200px">{{ old('message') }}</textarea>
             <label for="message">Message:</label>
         </div>
-        
+
         <button class="btn btn-outline-primary col-12 my-3" type="submit">Send</button>
     </form>
 

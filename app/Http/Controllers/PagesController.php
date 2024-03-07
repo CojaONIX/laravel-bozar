@@ -50,7 +50,7 @@ class PagesController extends Controller
         $message = $request->message;
 
         Mail::to('test@example.com')->send(new ContactForm($name, $email, $message));
-        return redirect()->route('home')->withSuccess('Your message was send successfully. Thank you.');
+        return redirect()->route('home.page')->withSuccess('Your message was send successfully. Thank you.');
     }
 
     public function showTest(Request $request)
@@ -86,60 +86,60 @@ class PagesController extends Controller
 
             case('users'):
                 return User::all();
-                
+
             case('user posts'):
                 try {
                     return User::findOrFail($item)->posts()->get();
-                } catch (Throwable $e) { 
+                } catch (Throwable $e) {
                     return [
                         'code' => 404,
                         'message' => 'User Not found - id=' . $item,
                         'Try with' => User::select('id')->get()->pluck('id')
                     ];
                 }
-                
+
             case('users posts count'):
                 return User::select('id', 'name')->withCount('posts')->get();
-                
+
             case('user by id'):
                 try {
                     return User::findOrFail($item);
-                } catch (Throwable $e) { 
+                } catch (Throwable $e) {
                     return [
                         'code' => 404,
                         'message' => 'User Not found - id=' . $item,
                         'Try with' => User::all()->pluck('id')
                     ];
                 }
- 
+
             case('posts'):
                 return Post::all();
-                
+
             case('post by id'):
                 try {
                     return Post::findOrFail($item);
-                } catch (Throwable $e) { 
+                } catch (Throwable $e) {
                     return [
                         'code' => 404,
                         'message' => 'Post Not found - id=' . $item,
                         'Try with' => Post::select('id')->get()->pluck('id')
                     ];
                 }
-                
+
             case('post by id with user'):
                 return Post::with('user')->findOrFail($item);
-                
+
             case('post by slug'):
                 try {
                     return Post::where('slug', $item)->firstOrFail();
-                } catch (Throwable $e) { 
+                } catch (Throwable $e) {
                     return [
                         'code' => 404,
                         'message' => 'Post slug Not found - slug=' . $item,
                         'Try with' => Post::select('slug')->get()->pluck('slug')
                     ];
                 }
-                
+
             case('post rates'):
                 return Post::findOrFail($item)->user_rate()->get()->pluck('pivot.rate')->sum();
 
@@ -148,25 +148,25 @@ class PagesController extends Controller
 
             case('logged user'):
                 return Auth::user();
-                
+
             case('edit post multiselect'):
                 return ['post' => Post::with('categories:id,name')->findOrFail($item), 'categories' => Category::all(['id', 'name'])];
-                
+
             case('categories'):
                 return Category::all();
-                
+
             case('postsByCategory1'):
                 return Post::whereHas('categories', function (Builder $query) use ($item) {
                             $query->where('category_id', '=', $item);
                         })->get();
-                
+
             case('postsByCategory2'):
                 return Category::where('id', $item)->with('post')->get();
 
             case('transaction1'):
                 DB::beginTransaction();
                 try {
-                    
+
                     $post = Post::findOrFail($item);
 
                     $old_image = $post->image;
@@ -182,12 +182,12 @@ class PagesController extends Controller
                         'message' => $e->getMessage()
                     ];
                 }
-    
+
             case('transaction2'):
                 try {
                     DB::transaction(function () use ($item) {
                         $post = Post::findOrFail($item);
-    
+
                         $old_image = $post->image;
                         $post->image = 13;
                         $post->save();
@@ -209,10 +209,10 @@ class PagesController extends Controller
 
             case('roles_with_user'):
                 return Role::with('users:name,email,role_id')->get();
-                
+
             case('users_with_role'):
                 return User::with('role:id,name')->get();
-                
+
             default:
                 return [
                     'msg' => 'Bad action'

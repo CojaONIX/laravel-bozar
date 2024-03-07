@@ -86,7 +86,7 @@ class PostsController extends Controller
     public function createNewPost(PostRequest $request): RedirectResponse
     {
         $post = new Post;
- 
+
         $post->title = $request->title;
         $post->body = $request->body;
         $post->user_id = Auth::user()->id;
@@ -102,7 +102,7 @@ class PostsController extends Controller
 
         $post->save();
         $post->categories()->sync($request->categories ? $request->categories : []);
- 
+
         return redirect()->route('dashboard.posts')->withSuccess('Post id=' . $post->id . ' added');
     }
 
@@ -126,7 +126,7 @@ class PostsController extends Controller
     public function updateEditPost(PostRequest $request, $id): RedirectResponse
     {
         $post = Post::withoutGlobalScopes()->findOrFail($id);
- 
+
         $post->title = $request->title;
         $post->body = $request->body;
         $post->slug = Str::slug($post->title, '-');
@@ -138,7 +138,7 @@ class PostsController extends Controller
             Image::make('storage/' . $path)->fit(300, 100)->save();
             $post->image = Str::of($path)->substr(6);
         }
-        
+
         $post->save();
         $post->categories()->sync($request->categories ? $request->categories : []);
 
@@ -159,7 +159,7 @@ class PostsController extends Controller
     {
         $term = $request->term;
         if(!$term) {
-            return redirect()->route('home');
+            return redirect()->route('home.page');
         }
 
         $request->validate([
@@ -175,7 +175,7 @@ class PostsController extends Controller
         ]);
     }
 
-    
+
     public function ajaxRate(Request $request)
     {
         $post_id = $request->post_id;
