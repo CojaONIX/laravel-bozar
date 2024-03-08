@@ -103,7 +103,7 @@ class PostsController extends Controller
         $post->save();
         $post->categories()->sync($request->categories ? $request->categories : []);
 
-        return redirect()->route('dashboard.posts')->withSuccess('Post id=' . $post->id . ' added');
+        return redirect()->route('post.all')->withSuccess('Post id=' . $post->id . ' added');
     }
 
     public function showEditPost(Request $request, $postId): View
@@ -142,7 +142,7 @@ class PostsController extends Controller
         $post->save();
         $post->categories()->sync($request->categories ? $request->categories : []);
 
-        return redirect()->route('dashboard.posts')->withSuccess('Post id=' . $id . ' edited');
+        return redirect()->route('post.all')->withSuccess('Post id=' . $id . ' edited');
     }
 
     public function deletePost(Request $request, $id): RedirectResponse
@@ -152,7 +152,7 @@ class PostsController extends Controller
         $post->forceDelete();
         $msg = 'Post id=' . $id . ' permanently deleted';
 
-        return redirect()->route('dashboard.posts')->withSuccess($msg);
+        return redirect()->route('post.all')->withSuccess($msg);
     }
 
     public function searchPostsByTerm(Request $request): View | RedirectResponse

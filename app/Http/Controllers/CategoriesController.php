@@ -37,10 +37,10 @@ class CategoriesController extends Controller
         ]);
 
         $category = new Category;
- 
+
         $category->name = $request->name;
         $category->save();
 
-        return redirect()->route('dashboard.categories')->withSuccess('Category name=' . $category->name . ' created.');
+        return redirect()->route('category.all')->withSuccess('Category name=' . $category->name . ' created.');
     }
 }

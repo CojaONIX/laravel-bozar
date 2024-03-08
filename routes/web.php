@@ -36,33 +36,44 @@ Route::controller(PostsController::class)->group(function () {
     Route::get('/search', 'searchPostsByTerm')->name('search');
 });
 
-Route::middleware('auth')->group(function () {
-    Route::controller(ProfileController::class)->group(function () {
-        Route::get('/profile', 'edit')->name('profile.edit');
-        Route::patch('/profile', 'update')->name('profile.update');
-        Route::delete('/profile', 'destroy')->name('profile.destroy');
+Route::middleware('auth')->prefix('/admin')->group(function () {
 
-        Route::get('/profiles', 'all')->name('profiles');
-    });
+    Route::view('/', 'admin.dashboard')->name('admin.dashboard');
 
-    Route::controller(PostsController::class)->group(function () {
-        Route::get('/dashboard', 'showDashboard')->name('dashboard');
-        Route::get('/dashboard/posts', 'showPosts')->name('dashboard.posts');
-        Route::get('/dashboard/post/new', 'showNewPost')->name('post.create.form');
-        Route::post('/dashboard/post/new', 'createNewPost')->name('post.create');
-        Route::get('/dashboard/post/edit/{id}', 'showEditPost')->name('post.edit.form');
-        Route::put('/dashboard/post/edit/{id}', 'updateEditPost')->name('post.edit');
-        Route::delete('/dashboard/post/delete/{id}', 'deletePost')->name('post.soft.delete');
+    Route::controller(ProfileController::class)
+        ->name('profile.')
+        ->prefix('/profile')
+        ->group(function () {
+            Route::get('/', 'edit')->name('edit');
+            Route::patch('/', 'update')->name('update');
+            Route::delete('/', 'destroy')->name('destroy');
 
-        Route::post('/ajax/post/rate', 'ajaxRate')->name('ajax.post.rate');
-        Route::post('/ajax/post/publish', 'ajaxPublish')->name('ajax.post.publish');
-    });
+            Route::get('/all', 'all')->name('all');
+        });
 
-    Route::controller(CategoriesController::class)->group(function () {
-        Route::get('/dashboard/categories', 'showCategories')->name('dashboard.categories');
-        Route::get('/dashboard/category/new', 'showNewCategoryForm')->name('category.create.form');
-        Route::post('/dashboard/category/new', 'createNewCategory')->name('category.create');
-    });
+    Route::controller(PostsController::class)
+        ->name('post.')
+        ->prefix('/post')
+        ->group(function () {
+            Route::get('/all', 'showPosts')->name('all');
+            Route::get('/new', 'showNewPost')->name('create.form');
+            Route::post('/new', 'createNewPost')->name('create');
+            Route::get('/edit/{id}', 'showEditPost')->name('edit.form');
+            Route::put('/edit/{id}', 'updateEditPost')->name('edit');
+            Route::delete('/delete/{id}', 'deletePost')->name('soft.delete');
+
+            Route::post('/rate', 'ajaxRate')->name('rate');
+            Route::post('/publish', 'ajaxPublish')->name('publish');
+        });
+
+    Route::controller(CategoriesController::class)
+        ->name('category.')
+        ->prefix('/category')
+        ->group(function () {
+            Route::get('/all', 'showCategories')->name('all');
+            Route::get('/new', 'showNewCategoryForm')->name('create.form');
+            Route::post('/new', 'createNewCategory')->name('create');
+        });
 });
 
 
