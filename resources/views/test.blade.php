@@ -43,7 +43,7 @@
             query = $(this).text();
             $.ajax({
                 type: 'POST',
-                url: {{ route('test.get.data') }},
+                url: '{{ route('test.get.data') }}',
                 dataType: 'json',
                 data: {
                     _token: "{{ csrf_token() }}",

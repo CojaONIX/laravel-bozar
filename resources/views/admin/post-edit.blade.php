@@ -6,7 +6,7 @@
     <link href="https://cdn.datatables.net/v/dt/jq-3.7.0/dt-1.13.6/datatables.min.css" rel="stylesheet">
     <script src="https://cdn.datatables.net/v/dt/jq-3.7.0/dt-1.13.6/datatables.min.js"></script>
 @endsection
- 
+
 @section('content')
 
 <div class="d-flex flex-nowrap">
@@ -16,16 +16,16 @@
     @can('update-post', $post)
         <div class="col-8 mx-5">
             <div class="d-flex justify-content-between mb-3">
-                <a href="/dashboard/posts" class="btn btn-outline-primary">Cancel</a>
+                <a href="{{ url()->previous() }}" class="btn btn-outline-primary">Cancel</a>
 
-                <form method="post" action="/dashboard/post/delete/{{$post->id}}">
+                <form method="post" action="{{ route('post.soft.delete', ['id' => $post->id]) }}">
                     @csrf
                     @method('delete')
                     <button class="btn btn-outline-danger" type="submit">Delete</button>
                 </form>
             </div>
 
-            <form method="post" action="/dashboard/post/edit/{{$post->id}}" enctype="multipart/form-data">
+            <form method="post" action="{{ route('post.edit', ['id' => $post->id]) }}" enctype="multipart/form-data">
                 @csrf
                 @method('put')
 
@@ -53,7 +53,7 @@
                         <input type="file" class="form-control mb-3" id="image" name="image" value="{{ old('image') }}">
                     </div>
                 </div>
-                
+
                 <button class="btn btn-outline-primary col-12 my-3" type="submit">Save</button>
             </form>
 

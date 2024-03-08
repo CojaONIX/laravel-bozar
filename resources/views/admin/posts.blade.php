@@ -6,7 +6,7 @@
     <link href="https://cdn.datatables.net/v/dt/jq-3.7.0/dt-1.13.6/datatables.min.css" rel="stylesheet">
     <script src="https://cdn.datatables.net/v/dt/jq-3.7.0/dt-1.13.6/datatables.min.js"></script>
 @endsection
- 
+
 @section('content')
 
 <div class="d-flex flex-nowrap">
@@ -16,17 +16,17 @@
     <div class="mx-3">
 
         <div class="d-flex justify-content-between align-items-start">
-            <a href="/dashboard/post/new" class="btn btn-primary mb-5">New Post</a>
+            <a href="{{ route('post.create.form') }}" class="btn btn-primary mb-5">New Post</a>
             <div id="successMessage" class="alert alert-success" role="alert">
                 @if(session('success'))
                     {{session('success')}}
-                @endif   
+                @endif
             </div>
         </div>
 
         <h4>Posts</h4>
         <hr>
-        
+
         <table id="posts" class="display">
             <thead>
                 <tr>
@@ -58,7 +58,7 @@
                     <td>{{$post->created_at}}</td>
                     <td>{{$post->updated_at}}</td>
                     <td><div class="form-check form-switch d-flex justify-content-center"><input class="published form-check-input" type="checkbox" role="switch" data-post={{$post->id}} @checked(!$post->trashed())></div></td>
-                    <td><a href="/dashboard/post/edit/{{$post->id}}" class="btn btn-outline-primary">Edit</a></td>
+                    <td><a href="{{ route('post.edit.form', ['id' => $post->id]) }}" class="btn btn-outline-primary">Edit</a></td>
                 </tr>
                 @endforeach
 

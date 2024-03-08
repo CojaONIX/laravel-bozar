@@ -6,7 +6,7 @@
     <link href="https://cdn.datatables.net/v/dt/jq-3.7.0/dt-1.13.6/datatables.min.css" rel="stylesheet">
     <script src="https://cdn.datatables.net/v/dt/jq-3.7.0/dt-1.13.6/datatables.min.js"></script>
 @endsection
- 
+
 @section('content')
 
 <div class="d-flex flex-nowrap">
@@ -14,9 +14,9 @@
     <x-sidebar active=2/>
 
     <div class="col-8 mx-5">
-        <a href="/dashboard/posts" class="btn btn-outline-primary mb-5">Cancel</a>
+        <a href="{{ url()->previous() }}" class="btn btn-outline-primary mb-5">Cancel</a>
 
-        <form method="post" action="/dashboard/post/new" enctype="multipart/form-data">
+        <form method="post" action="{{ route('post.create') }}" enctype="multipart/form-data">
             @csrf
 
             <div class="form-floating mb-3">
