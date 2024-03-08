@@ -19,8 +19,6 @@ use Illuminate\Support\Facades\URL;
 |
 */
 
-URL::forceScheme('https');
-
 Route::controller(PagesController::class)->group(function () {
     Route::get('/', 'showHome')->name('home.page');
     Route::get('/test', 'showTest')->name('test.page');
@@ -34,7 +32,7 @@ Route::controller(PagesController::class)->group(function () {
 Route::controller(PostsController::class)->group(function () {
     //Route::get('/post/{id}', 'getPostById');
     Route::get('/post/{slug}', 'getPostBySlug')->name('post.page');
-    Route::get('/posts/{user_id}', 'getPostsByUserId');
+    Route::get('/posts/{user_id}', 'getPostsByUserId')->name('posts.by.user');
     Route::get('/search', 'searchPostsByTerm')->name('search');
 });
 

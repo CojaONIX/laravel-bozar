@@ -6,7 +6,7 @@
     <link href="https://cdn.datatables.net/v/dt/jq-3.7.0/dt-1.13.6/datatables.min.css" rel="stylesheet">
     <script src="https://cdn.datatables.net/v/dt/jq-3.7.0/dt-1.13.6/datatables.min.js"></script>
 @endsection
- 
+
 @section('content')
 
 <div class="d-flex flex-nowrap">
@@ -15,7 +15,7 @@
 
     <div class="col-8 m-5">
 
-        <a href="/dashboard/category/new" class="btn btn-primary my-3">New Category</a>
+        <a href="{{ route('category.create.form') }}" class="btn btn-primary my-3">New Category</a>
         <h4>Categories</h4>
         <table id="categories" class="display">
             <thead>
@@ -41,7 +41,7 @@
                 {{session('success')}}
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
-        @endif   
+        @endif
         <hr>
     </div>
 
