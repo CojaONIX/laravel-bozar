@@ -11,7 +11,7 @@
         }
     </style>
 @endsection
- 
+
 @section('content')
 
     <div class="row row-cols-1">
@@ -56,7 +56,7 @@
                     </div>
                     @endauth
                     @guest
-                        <p>Please login to rate</p>    
+                        <p>Please login to rate</p>
                     @endguest
 
                     <div>
@@ -86,7 +86,7 @@
 @section('JavaScript')
 <script>
     $(document).ready(function() {
-        
+
         rate = {{$sett['rate']}};
         if(rate > 0) {
             $('.rate').eq(rate).removeClass('text-bg-light');
@@ -101,7 +101,7 @@
 
             $.ajax({
                 type: 'POST',
-                url: '/ajax/post/rate',
+                url: "{{ route('post.rate') }}",
                 dataType: 'json',
                 data: {
                     _token: '{{ csrf_token() }}',

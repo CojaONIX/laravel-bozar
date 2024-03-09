@@ -86,7 +86,7 @@
     $('.published').click(function() {
         $.ajax({
             type: 'POST',
-            url: '/ajax/post/publish',
+            url: "{{ route('post.publish') }}",
             dataType: 'json',
             data: {
                 _token: "{{ csrf_token() }}",

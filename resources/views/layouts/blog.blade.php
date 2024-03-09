@@ -20,20 +20,22 @@
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item"><a class="nav-link active" href="{{ route('home.page') }}">Home</a></li>
                     <li class="nav-item"><a class="nav-link" href="{{ route('test.page') }}">Test</a></li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Old</a>
-                        <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="{{ route('old.view.page', ['old_view' => 'welcome']) }}">Welcome</a></li>
-                            <li><hr class="dropdown-divider"></li>
-                            <li><a class="dropdown-item" href="{{ route('old.view.page', ['old_view' => 'login']) }}">login</a></li>
-                            <li><a class="dropdown-item" href="{{ route('old.view.page', ['old_view' => 'register']) }}">register</a></li>
-                            <li><a class="dropdown-item" href="{{ route('old.view.page', ['old_view' => 'forgot-password']) }}">forgot-password</a></li>
-                            <li><hr class="dropdown-divider"></li>
-                            <li><a class="dropdown-item" href="{{ route('old.view.page', ['old_view' => 'confirm-password']) }}">confirm-password</a></li>
-                            <li><a class="dropdown-item" href="{{ route('old.view.page', ['old_view' => 'reset-password']) }}">reset-password</a></li>
-                            <li><a class="dropdown-item" href="{{ route('old.view.page', ['old_view' => 'verify-email']) }}">verify-email</a></li>
-                        </ul>
-                    </li>
+
+{{--                    <li class="nav-item dropdown">--}}
+{{--                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Old</a>--}}
+{{--                        <ul class="dropdown-menu">--}}
+{{--                            <li><a class="dropdown-item" href="{{ route('old.view.page', ['old_view' => 'welcome']) }}">Welcome</a></li>--}}
+{{--                            <li><hr class="dropdown-divider"></li>--}}
+{{--                            <li><a class="dropdown-item" href="{{ route('old.view.page', ['old_view' => 'login']) }}">login</a></li>--}}
+{{--                            <li><a class="dropdown-item" href="{{ route('old.view.page', ['old_view' => 'register']) }}">register</a></li>--}}
+{{--                            <li><a class="dropdown-item" href="{{ route('old.view.page', ['old_view' => 'forgot-password']) }}">forgot-password</a></li>--}}
+{{--                            <li><hr class="dropdown-divider"></li>--}}
+{{--                            <li><a class="dropdown-item" href="{{ route('old.view.page', ['old_view' => 'confirm-password']) }}">confirm-password</a></li>--}}
+{{--                            <li><a class="dropdown-item" href="{{ route('old.view.page', ['old_view' => 'reset-password']) }}">reset-password</a></li>--}}
+{{--                            <li><a class="dropdown-item" href="{{ route('old.view.page', ['old_view' => 'verify-email']) }}">verify-email</a></li>--}}
+{{--                        </ul>--}}
+{{--                    </li>--}}
+
                     <li class="nav-item"><a class="nav-link" href="{{ route('contact.page') }}">Contact</a></li>
                 </ul>
 
@@ -47,7 +49,7 @@
                         <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Hello, {{ Auth::user()->name}}</a>
                         <ul class="dropdown-menu">
                             <li><a class="dropdown-item" href="{{ route('admin.dashboard') }}">Dashboard</a></li>
-                            <li><a class="dropdown-item" href="{{ route('profile.edit') }}">Profile</a></li>
+{{--                            <li><a class="dropdown-item" href="{{ route('profile.edit') }}">Profile</a></li>--}}
                             <li><hr class="dropdown-divider"></li>
                             <li>
                                 <form method="post" action="{{ route('logout') }}" class="dropdown-item">
